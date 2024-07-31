@@ -1,4 +1,3 @@
-// Importar dependencias necesarias
 import { promises } from 'fs';
 import { join } from 'path';
 import fetch from 'node-fetch';
@@ -55,7 +54,7 @@ const defaultMenu = {
 `,
 };
 
-let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
+let handler = async (m, { conn, __dirname }) => {
   try {
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {};
     let { exp, diamond, level, role } = global.db.data.users[m.sender];
@@ -162,7 +161,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
           {
             title: `${tags[tag]}`,
             description: `Comandos de la categoría ${tags[tag]}`,
-            id: `${usedPrefix}menu_${tag}`
+            id: `${_p}menu_${tag}`
           }
         ]
       });
