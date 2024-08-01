@@ -32,11 +32,11 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     ];
 
     // Enviar el menú desplegable
-    await conn.sendList(m.chat, '≡ *Menú Desplegable*', `\n${mainMessage}`, 'Selecciona una opción', null, listSections, m);
+    await conn.sendList(m.chat, "≡ *Menú Desplegable*", mainMessage, "Selecciona una opción", null, listSections, m);
 };
 
-handler.help = ['menubot']
-handler.tags = ['admin']
-handler.command = ['menubot', 'botmenu']
+handler.help = ["menubot"]
+handler.tags = ["admin"]
+handler.command = ["menubot22", "botmenu"]
 
 export default handler;
