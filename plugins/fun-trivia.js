@@ -1,25 +1,25 @@
 import axios from 'axios';
 
-const QUOTE_API_URL = 'https://api.quotable.io/random';
+const NAME_API_URL = 'https://randomuser.me/api/';
 
 const handler = async (m, { conn }) => {
     try {
-        // Obtener una cita aleatoria
-        const response = await axios.get(QUOTE_API_URL);
-        const quote = response.data;
+        // Obtener un nombre aleatorio
+        const response = await axios.get(NAME_API_URL);
+        const name = response.data.results[0].name;
 
-        // Enviar la cita al chat
-        const message = `📜 *Cita del Día*\n\n"${quote.content}"\n\n- ${quote.author}`;
+        // Enviar el nombre al chat
+        const message = `👤 *Nombre Aleatorio*\n\nNombre: ${name.first} ${name.last}`;
         await conn.sendMessage(m.chat, { text: message }, { quoted: m });
     } catch (error) {
-        m.reply('Hubo un error al obtener la cita. Por favor intenta más tarde.');
+        m.reply('Hubo un error al obtener el nombre. Por favor intenta más tarde.');
         console.error(error);
     }
 };
 
-handler.command = /^(quote|cita)$/i;
+handler.command = /^(name|nombre)$/i;
 handler.group = false; // Puede ser usado en chats individuales
-handler.help = ['quote'];
+handler.help = ['name'];
 handler.tags = ['fun'];
 
 export default handler;
