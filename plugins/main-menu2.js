@@ -275,7 +275,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
     
     let pp = './src/abyss.png';
 
-    conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, rcanal)
+    conn.sendFile(m.chat, pp, './src/abyss3.png', text.trim(), m, null, rcanal)
   
     m.react('📚')
     
