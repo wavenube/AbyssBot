@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import { fileURLToPath } from 'url' 
 
 global.owner = [
-  ['34682075812', 'FG98', true],
+  ['34682075812', 'zephyr', true],
   ['5491168352204']
 ] //Numeros de owner 
 
@@ -20,23 +20,22 @@ global.APIKeys = { // APIKey Here
 }
 
 // Sticker WM
-global.packname = 'Senna┃ᴮᴼᵀ' 
-global.author = '@fg98' 
+global.packname = 'Abyss┃ᴮᴼᵀ' 
+global.author = '@ZephyrByte' 
 
 //--info FG
-global.botName = 'Senna'
-global.fgig = 'https://instagram.com/fg98_ff' 
-global.fgsc = 'https://github.com/FG98F/dylux-fg' 
-global.fgyt = 'https://youtube.com/fg98f'
-global.fgpyp = 'https://paypal.me/fg98f'
+global.botName = 'Abyss'
+global.fgig = 'https://instagram.com/abyss_wabot' 
+global.fgsc = 'https://github.com/FG98F/Abyss_WaBot' 
+global.fgpyp = 'https://paypal.me/'
 global.fglog = 'https://i.ibb.co/1zdz2j3/logo.jpgs' 
 
 //--- Grupos WA
 global.id_canal = '120363177092661333@newsletter' //-ID de canal de WhatsApp
-global.fgcanal = 'https://whatsapp.com/channel/0029VaCeuZd6mYPQiWqxXj1F'
-global.bgp = 'https://chat.whatsapp.com/BESBo5xjvIZE4YVvth6Yzr'
-global.bgp2 = 'https://chat.whatsapp.com/I7bvd8XCAOUHjgkHteqFC7'
-global.bgp3 = 'https://chat.whatsapp.com/F0JTTyZ3hsoL7OlU8TEpuH' //--GP NSFW
+global.fgcanal = 'https://whatsapp.com/channel/0029VakDx9I0gcfFXnzZIX2v'
+global.bgp = 'https://chat.whatsapp.com/IYsbScC3cMzBcakINRWJL6'
+global.bgp2 = 'https://chat.whatsapp.com/IYsbScC3cMzBcakINRWJL6'
+global.bgp3 = 'https://chat.whatsapp.com/IYsbScC3cMzBcakINRWJL6' //--GP NSFW
 
 global.wait = '⌛ _Cargando..._\n*▬▬▬▭*'
 global.rwait = '⌛'
