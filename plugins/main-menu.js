@@ -1,47 +1,47 @@
 let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Mensaje principal
-    let mainMessage = 'Selecciona el menu que deseas obtener:';
+    let mainMessage = 'Selecciona el menú que deseas obtener:';
 
     // Opciones del menú desplegable
     let listSections = [
         {
-            title: "TODOS LOS MENUS",
+            title: "TODOS LOS MENÚS",
             rows: [
                 {
-                    title: "allmenu",
-                    description: "Se muestra el menu general del Bot.",
+                    title: "ALLMENU",
+                    description: "Se muestra el menú general del Bot.",
                     id: `${usedPrefix}allmenu`
                 },
                 {
-                    title: "menu audio",
-                    description: "Se muestra un menu solo con los audios que trae incorporado el Bot.",
-                    id: `${usedPrefix}opcion2`
+                    title: "MENU AUDIO",
+                    description: "Se muestra un menú solo con los audios que trae incorporado el Bot.",
+                    id: `${usedPrefix}menuaudio`
                 },
                 {
-                    header: 'menu grupo',
-                    description: "Se envian unicamente las opciones de gestion de grupo.",
+                    title: "MENU GRUPO",
+                    description: "Se envían únicamente las opciones de gestión de grupo.",
                     id: `${usedPrefix}menugrupo`
                 },
                 {
-                    title: "menu restrict",
-                    description: "Se usa para activar el modo gestion de grupo.",
-                    id: `${usedPrefix}enable`
+                    title: "MENU RESTRICT",
+                    description: "Se usa para activar el modo gestión de grupo.",
+                    id: `${usedPrefix}menurestrict`
                 },
                 {
-                    title: "menu acerca-de",
-                    description: "Se muestra un menu con info variada.",
-                    id: `${usedPrefix}menuacercade`
+                    title: "MENU ACERCA-DE",
+                    description: "Se muestra un menú con info variada.",
+                    id: `${usedPrefix}acercademenu`
                 },
                 {
-                    title: "menu anime",
-                    description: "Se muestra un menu de generacion de imagenes anime.",
-                    id: `${usedPrefix}menuanime`
+                    title: "MENU ANIME",
+                    description: "Se muestra un menú de generación de imágenes anime.",
+                    id: `${usedPrefix}animemenu`
                 },
                 {
-                    title: "menu subbot",
+                    title: "MENU SUBBOT",
                     description: "Se muestran opciones para los subbot.",
-                    id: `${usedPrefix}opcion2`
-                },
+                    id: `${usedPrefix}botmenu`
+                }
             ]
         }
     ];
