@@ -5,42 +5,27 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Opciones del menú desplegable
     let listSections = [
         {
-            title: "TODOS LOS MENÚS",
+            title: "COMANDOS DEL BOT",
             rows: [
                 {
-                    title: "ALLMENU",
-                    description: "Se muestra el menú general del Bot.",
-                    id: `${usedPrefix}allmenu`
+                    title: "BOTCLONE",
+                    description: "Clona el bot.",
+                    id: `${usedPrefix}botclone`
                 },
                 {
-                    title: "MENU AUDIO",
-                    description: "Se muestra un menú solo con los audios que trae incorporado el Bot.",
-                    id: `${usedPrefix}menuaudio`
+                    title: "BOTLIST",
+                    description: "Muestra la lista de bots.",
+                    id: `${usedPrefix}botlist`
                 },
                 {
-                    title: "MENU GRUPO",
-                    description: "Se envían únicamente las opciones de gestión de grupo.",
-                    id: `${usedPrefix}menugrupo`
+                    title: "TXBOT",
+                    description: "Transfiere el bot a otro número.",
+                    id: `${usedPrefix}txbot`
                 },
                 {
-                    title: "MENU RESTRICT",
-                    description: "Se usa para activar el modo gestión de grupo.",
-                    id: `${usedPrefix}menurestrict`
-                },
-                {
-                    title: "MENU ACERCA-DE",
-                    description: "Se muestra un menú con info variada.",
-                    id: `${usedPrefix}menuacercade`
-                },
-                {
-                    title: "MENU ANIME",
-                    description: "Se muestra un menú de generación de imágenes anime.",
-                    id: `${usedPrefix}menuanime`
-                },
-                {
-                    title: "MENU SUBBOT",
-                    description: "Se muestran opciones para los subbot.",
-                    id: `${usedPrefix}menusubbot`
+                    title: "STOP",
+                    description: "Detiene el bot.",
+                    id: `${usedPrefix}stop`
                 }
             ]
         }
@@ -50,8 +35,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     await conn.sendList(m.chat, '  ≡ *Menú Desplegable*', `\n ${mainMessage}`, 'Selecciona una opción', null, listSections, m);
 };
 
-handler.help = ['menuopciones']
-handler.tags = ['main']
-handler.command = ['menu', 'help'] 
+handler.help = ['menubot']
+handler.tags = ['admin']
+handler.command = ['menubot', 'botmenu']
 
 export default handler;
