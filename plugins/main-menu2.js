@@ -273,7 +273,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 
     let text = textTemplate.replace(/%(\w+)/g, (_, key) => '' + (replace[key] || ''));
     
-    let pp = './src/fg_logo.jpg';
+    let pp = './src/abyss.png';
 
     await conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, { thumbnail: null });
     m.react('📚');
