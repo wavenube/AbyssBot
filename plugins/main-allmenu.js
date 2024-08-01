@@ -73,6 +73,10 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ║💎 DIAMANTES ➟ %diamond 
  ╰═══════════════ ✧ 
 
+ ╭━━━━━━━━━━━━━━━━
+ ║ Ⓟ = Premium
+ ║ ⓓ = Diamantes
+ ╰═══════════════ ✧ 
 ⬛᭢━━━━━━━━━᭥⬛᭢
 ╭─「ACERCA DE」
 ▢ .blocklist
