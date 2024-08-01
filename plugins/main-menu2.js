@@ -275,8 +275,9 @@ let handler = async function (m, { conn, text, usedPrefix }) {
     
     let pp = './src/abyss.png';
 
-    await conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, { thumbnail: null });
-    m.react('📚');
+    conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, rcanal)
+  
+    m.react('📚')
     
   } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error', m);
