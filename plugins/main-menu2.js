@@ -71,7 +71,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ║🧰 EXPERIENCIA ➟ %exp
  ║⚓ RANGO ➟ %role
  ║💎 DIAMANTES ➟ %diamond 
- ║💸 DOLARES ➟ %balance
+ ║💸 DOLARES ➟ %money
  ╰═══════════════ ✧ 
 
 ⬛᭢━━━━━━━━━᭥⬛᭢
