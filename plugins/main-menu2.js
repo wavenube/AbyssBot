@@ -67,11 +67,11 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ╭━━━━━━━━━━━━━━━━╮
      INFO DEL USUARIO          
  ╭━━━━━━━━━━━━━━━━╯
- ║👤 NOMBRE: %taguser 
+ ║👤 NOMBRE: %name 
  ║🧰 EXPERIENCIA ➟ %exp
  ║⚓ RANGO ➟ %role
- ║💎 DIAMANTES ➟ %limit 
- ║💸 DOLARES ➟ %money
+ ║💎 DIAMANTES ➟ %diamond 
+ ║💸 DOLARES ➟ %coin
  ╰═══════════════ ✧ 
 
 
