@@ -3,10 +3,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     let mainMessage = 'Elije la opción que quieras:';
 
     // Opciones del menú desplegable
-    let listSections = [];
-    for (let index in ytres) {
-        let v = ytres[index];
-        listSections.push({
+    let listSections = [
         {
             title: "Opciones",
             rows: [
@@ -24,17 +21,20 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                     title: "3",
                     description: "Opción 3",
                     rowId: `${usedPrefix}opcion3`
-               }
+                }
             ]
-        });
-    }
+        }
+    ];
 
-    await conn.sendList(m.chat, '  ≡ *FG MUSIC*🔎', `\n 📀 Resultados de:\n *${text}*`, `Click Aqui`, ytres[0].image, listSections, m);
+    // Imagen opcional
+    let image = './path/to/image.jpg';  // Reemplaza con la ruta a una imagen válida
+
+    // Enviar el menú desplegable
+    await conn.sendList(m.chat, 'Menú Desplegable', mainMessage, 'Selecciona una opción', image, listSections, m);
 };
 
-handler.help = ['menuopts']
-handler.tags = ['menu']
-handler.command = ['menuopts', 'help'] 
-handler.disabled = false
+handler.help = ['menuopciones']
+handler.tags = ['main']
+handler.command = ['menuopciones', 'menuopts'] 
 
-export default handler
+export default handler;
