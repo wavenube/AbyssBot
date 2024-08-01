@@ -9,6 +9,7 @@ const __dirname = dirname(__filename);
 
 let handler = async function (m, { conn, text, usedPrefix }) {
   try {
+    let user = global.db.data.users[who]
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {};
     let { exp, diamond, level, role } = global.db.data.users[m.sender];
     let { min, xp, max } = xpRange(level, global.multiplier);
