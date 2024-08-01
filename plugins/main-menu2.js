@@ -3,9 +3,10 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 let m2 = 
 `◈ ━━━━━ Senna  ┃ ᴮᴼᵀ ━━━━━ ◈
 
-👋🏻 Hola! XxX
-👥 Usuarios : 3
-🟢 Tiempo activo : 00d 00h 18m 
+👋🏻 Hola! *%name*
+👥 Usuarios : %totalreg
+🟢 Tiempo activo : %muptime
+%sbot
 
 ▢ ADD
 * https://instagram.com/fg98_ff
