@@ -64,3 +64,9 @@ export default {
     triviaHandler,
     answerHandler,
 };
+handler.command = /^(quote|cita)$/i;
+handler.group = false; // Puede ser usado en chats individuales
+handler.help = ['quote'];
+handler.tags = ['fun'];
+
+export default handler;
