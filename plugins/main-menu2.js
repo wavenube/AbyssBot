@@ -46,23 +46,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
     let totalreg = Object.keys(global.db.data.users).length;
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length;
 
-    let textTemplate = `
-◈ ━━━━━ Senna  ┃ ᴮᴼᵀ ━━━━━ ◈
-
-👋🏻 Hola! *%name*
-👥 Usuarios : %totalreg
-🟢 Tiempo activo : %muptime
-%sbot
-
-▢ ADD
-* https://instagram.com/fg98_ff
-
-* https://fgmods.xyz
-
-────────────
-
-
-╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
+    let textTemplate = ` ╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
  ┃ ╭━━━━━━━━━━━━━━━━╮ 
  ┃ ┃ ╭┈────────────╮ 
  ┃ ┃ │❍ 🅼🅴🅽🆄 ❍ 
@@ -74,14 +58,21 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ┃┣━━━━━━━━━━━━━━━━╾• 
  ┃┃ ⋄ ᴄʀᴇᴀᴅᴏʀ ᴅᴇʟ ʙᴏᴛ:  Shizu-Hub 
  ┃┃ ⋄ ꜰᴇᴄʜᴀ » %date
- ┃┃ ⋄ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ » %muptime
-%sbot
+ ┃┃ ⋄ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ » %muptime %sbot
  ┃┃ ⋄ ʟᴇɴɢᴜᴀᴊᴇ » ꜱᴘᴀɴɪꜱʜ 
  ┃┃ ⋄ ᴜꜱᴜᴀʀɪᴏꜱ » %totalreg
  ┃╰━━━━━━━━━━━━━━━━╾• 
  ╰━━━╼Eʅɱσ - Bσƚ╾━━━╯ 
 
-
+ ╭━━━━━━━━━━━━━━━━╮
+     INFO DEL USUARIO          
+ ╭━━━━━━━━━━━━━━━━╯
+ ║👤 NOMBRE: %taguser 
+ ║🧰 EXPERIENCIA ➟ %exp
+ ║⚓ RANGO ➟ %role
+ ║💎 DIAMANTES ➟ %limit 
+ ║💸 DOLARES ➟ %money
+ ╰═══════════════ ✧ 
 
 
 ≡ LISTA DE MENUS
