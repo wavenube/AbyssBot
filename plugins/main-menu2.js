@@ -61,8 +61,199 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 
 ────────────
 
-≡ Use estos comandos sin el prefijo: *${usedPrefix}*
-...
+
+╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
+ ┃ ╭━━━━━━━━━━━━━━━━╮ 
+ ┃ ┃ ╭┈────────────╮ 
+ ┃ ┃ │❍ 🅼🅴🅽🆄 ❍ 
+ ┃ ┃ ╰┈────────────╯ 
+ ┃ ╰━━━━━━━━━━━━━━━━╯ 
+ ┣━━━▢ ʙᴜᴇɴᴀꜱ, *%name*• 
+ ┃╭━━━━━━━━━━━━━━━━╾• 
+ ┃┃  ❍ 1.0 ❍ 
+ ┃┣━━━━━━━━━━━━━━━━╾• 
+ ┃┃ ⋄ ᴄʀᴇᴀᴅᴏʀ ᴅᴇʟ ʙᴏᴛ:  Shizu-Hub 
+ ┃┃ ⋄ ꜰᴇᴄʜᴀ » %date
+ ┃┃ ⋄ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ » %muptime
+%sbot
+ ┃┃ ⋄ ʟᴇɴɢᴜᴀᴊᴇ » ꜱᴘᴀɴɪꜱʜ 
+ ┃┃ ⋄ ᴜꜱᴜᴀʀɪᴏꜱ » %totalreg
+ ┃╰━━━━━━━━━━━━━━━━╾• 
+ ╰━━━╼Eʅɱσ - Bσƚ╾━━━╯ 
+
+
+
+
+≡ LISTA DE MENUS
+
+Ⓟ = Premium
+ⓓ = Diamantes
+
+┌─⊷ ACERCA DE
+▢ .blocklist
+▢ .info
+▢ .owner
+▢ .donate
+▢ .language <es-en..>
+▢ .listprem
+▢ .menu2
+▢ .ping
+▢ .runtime
+▢ .speedtest
+▢ .support
+└───────────
+
+┌─⊷ SUB BOTS
+▢ .botclone
+▢ .botlist
+▢ .txbot
+▢ .stop
+└───────────
+
+┌─⊷ JUEGOS
+▢ .dado
+▢ .mates <modo>
+▢ .ppt
+▢ .slot <apuesta>
+└───────────
+
+┌─⊷ NIVEL & ECONOMIA
+▢ .balance
+▢ .buy
+▢ .daily
+▢ .leaderboard
+▢ .levelup
+▢ .mine
+▢ .transfer [tipo] [monto] [@tag]
+▢ .weekly
+▢ .work
+└───────────
+
+┌─⊷ REGISTRO
+▢ .reg <nombre.edad.género>
+▢ .mysn
+▢ .unreg <Num Serie>
+└───────────
+
+┌─⊷ STICKER
+▢ .attp <text>
+▢ .emojimix <emoji+emoji> (ⓓ)
+▢ .getsticker (ⓓ)
+▢ .smaker (ⓓ)
+▢ .sticker
+▢ .telestick
+▢ .toimg <sticker>
+▢ .tovid
+▢ .trigger <@user>
+▢ .ttp <text>
+▢ .take <nombre>|<autor>
+└───────────
+
+┌─⊷ IMAGEN
+▢ .tvid (ⓓ)
+▢ .couple (ⓓ)
+▢ .imagen (ⓓ)
+▢ .girl (ⓓ)
+▢ .meme
+▢ .person
+▢ .pinterest
+▢ .wallpaper (ⓓ)
+└───────────
+
+┌─⊷ MAKER
+▢ .logololi (ⓓ)
+▢ .graffiti2 (ⓓ)
+▢ .3dbox (ⓓ)
+▢ .future (ⓓ)
+▢ .ninja (ⓓ)
+▢ .marvel (ⓓ)
+▢ .paper (ⓓ)
+▢ .glitch (ⓓ)
+▢ .halloween (ⓓ)
+▢ .green (ⓓ)
+▢ .american (ⓓ)
+▢ .neon (ⓓ)
+▢ .devil (ⓓ)
+▢ .wolf (ⓓ)
+▢ .phlogo (ⓓ)
+▢ .transformer (ⓓ)
+▢ .thunder (ⓓ)
+▢ .graffiti (ⓓ)
+▢ .bpink (ⓓ)
+▢ .joker (ⓓ)
+▢ .matrix (ⓓ)
+▢ .glow (ⓓ)
+▢ .ballon (ⓓ)
+▢ .dmd (ⓓ)
+▢ .lightglow (ⓓ)
+└───────────
+
+┌─⊷ PREMIUM
+▢ .gdrive (ⓓ)
+▢ .mediafire <url> (ⓓ)
+▢ .xnxx (ⓓ)
+└───────────
+
+┌─⊷ GRUPO
+▢ .add
+▢ .delete
+▢ .delwarn @user
+▢ .demote (@tag)
+▢ .infogp
+▢ .hidetag
+▢ .kick @user
+▢ .link
+▢ .profile
+▢ .promote
+▢ .rules
+▢ .setbye <text>
+▢ .setrules <text>
+▢ .group
+▢ .setwelcome
+▢ .simulate <event> @user
+▢ .staff
+▢ .totag
+▢ .warn @user
+▢ .warns
+▢ .checkexpired
+└───────────
+
+┌─⊷ EN/DISABLE OPCIONES
+▢ .enable <option>
+▢ .disable <option>
+└───────────
+
+┌─⊷ ANIME
+▢ .waifu (ⓓ)
+▢ .neko (ⓓ)
+▢ .megumin (ⓓ)
+▢ .loli (ⓓ)
+└───────────
+
+┌─⊷ ANIME REACCION
+▢ .kill @tag (ⓓ)
+▢ .kiss @tag (ⓓ)
+▢ .pat @tag (ⓓ)
+▢ .slap @tag (ⓓ)
+└───────────
+
+┌─⊷ DESCARGAS
+▢ .facebook <url> (ⓓ)
+▢ .gdrive (ⓓ)
+▢ .gitclone <url> (ⓓ)
+▢ .igstalk
+▢ .igstory (ⓓ)
+▢ .instagram <link ig> (ⓓ)
+▢ .mediafire <url> (ⓓ)
+▢ .play
+▢ .play2
+▢ .tiktok (ⓓ)
+▢ .tiktokstalk
+▢ .twitter <url> (ⓓ)
+▢ .ytmp3 <url>
+▢ .ytsearch
+▢ .ytmp4 <link yt>
+└───────────
 ` // Resto del mensaje
 
     let replace = {
