@@ -27,13 +27,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     ];
 
     // Enviar el menú desplegable
-    await conn.sendMessage(m.chat, {
-        text: mainMessage,
-        footer: 'Selecciona una opción',
-        title: 'Menú Desplegable',
-        buttonText: 'Selecciona una opción',
-        sections: listSections
-    });
+    await conn.sendList(m.chat, 'Menú Desplegable', mainMessage, 'Selecciona una opción', '', listSections, m);
 };
 
 handler.help = ['menuopciones']
