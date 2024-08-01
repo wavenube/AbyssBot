@@ -8,7 +8,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             title: "TODOS LOS MENUS",
             rows: [
                 {
-                    header: 'allmenu',
                     title: "menu audio",
                     description: "Se muestra un menu solo con los audios que trae incorporado el Bot",
                     id: `${usedPrefix}allmenu`
