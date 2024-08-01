@@ -1,6 +1,8 @@
 let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Mensaje principal
     let mainMessage = 'Selecciona el menú que deseas obtener:';
+        let pp = './src/abyss.png';
+
 
     // Opciones del menú desplegable
     let listSections = [
