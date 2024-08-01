@@ -71,7 +71,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ║🧰 EXPERIENCIA ➟ %exp
  ║⚓ RANGO ➟ %role
  ║💎 DIAMANTES ➟ %diamond 
- ║💸 DOLARES ➟ %money
+ ║💸 DOLARES ➟ ${mssg.money}:* _${user.coin.toLocaleString()}_
  ╰═══════════════ ✧ 
 
 ⬛᭢━━━━━━━━━᭥⬛᭢
