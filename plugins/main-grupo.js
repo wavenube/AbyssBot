@@ -1,6 +1,6 @@
 let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Mensaje principal
-    let mainMessage = 'Selecciona el menú que deseas obtener:';
+    let mainMessage = 'Selecciona las opciones que desees:';
 
     // Opciones del menú desplegable
     let listSections = [
