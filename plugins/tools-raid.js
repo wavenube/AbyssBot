@@ -5,7 +5,7 @@ const handler = async (m, { conn, participants, usedPrefix, command }) => {
     const chatId = m.chat;
 
     // Verificar si el bot tiene permisos restrictivos habilitados
-
+    if (!global.db.data.settings[conn.user.jid].restrict) throw `${lenguajeGB['smsAvisoAG']()}${lenguajeGB['smsSoloOwner']()}`;
 
     // Verificar si el comando está en cooldown para el grupo
     if (cooldown[chatId] && (Date.now() - cooldown[chatId]) < COOLDOWN_TIME) {
@@ -31,8 +31,11 @@ const handler = async (m, { conn, participants, usedPrefix, command }) => {
         }
     }
 
+    // Configurar el grupo para que solo los administradores puedan hablar
+    await conn.groupSettingUpdate(chatId, 'announcement');
+
     // Enviar el mensaje notificando que el grupo fue raideado 5 veces seguidas
-    const mensajeRaid = "Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi. Este grupo fue raideado de bromi.";
+    const mensajeRaid = "Este grupo fue raideado de bromi. ".repeat(40); // Ajusta la cantidad de repeticiones según lo necesites
     for (let i = 0; i < 5; i++) {
         await conn.reply(chatId, mensajeRaid, null, { mentions: conn.parseMention(mensajeRaid) });
     }
