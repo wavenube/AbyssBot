@@ -10,17 +10,17 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                 {
                     title: "1",
                     description: "Opción 1",
-                    rowId: `${usedPrefix}opcion1`
+                    id: `${usedPrefix}opcion1`
                 },
                 {
                     title: "2",
                     description: "Opción 2",
-                    rowId: `${usedPrefix}opcion2`
+                    id: `${usedPrefix}opcion2`
                 },
                 {
                     title: "3",
                     description: "Opción 3",
-                    rowId: `${usedPrefix}opcion3`
+                    id: `${usedPrefix}opcion3`
                 }
             ]
         }
