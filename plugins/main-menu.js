@@ -5,12 +5,10 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Opciones del menú desplegable
     let listSections = [
         {
-            title: "Opciones",
+            title: "TODOS LOS MENUS",
             rows: [
                 {
-                    header: 'Todos los Menus',
-                    title: "menu completo",
-                    description: "Muestra el menu con todos los comandos del Bot",
+                    header: 'allmenu',
                     id: `${usedPrefix}allmenu`
                 },
                 {
