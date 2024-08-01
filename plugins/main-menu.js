@@ -8,8 +8,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             title: "TODOS LOS MENUS",
             rows: [
                 {
-                    title: "menu audio",
-
+                    title: "mallmenu",
+                    description: "Se muestra el menu general del Bot",
                     id: `${usedPrefix}allmenu`
                 },
                 {
