@@ -1,7 +1,11 @@
 import { promises } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import fetch from 'node-fetch';
+import { fileURLToPath } from 'url';
 import { xpRange } from '../lib/levelling.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let handler = async function (m, { conn, text, usedPrefix }) {
   try {
