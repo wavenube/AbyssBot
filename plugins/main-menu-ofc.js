@@ -52,7 +52,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
       let totalreg = Object.keys(global.db.data.users).length;
       let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length;
 
-      let textTemplate = `.╭━━❍Eʅɱσ - Bσƚ❍━━╮
+      let textTemplate = `.╭━━❍Abyss - Bot❍━━╮
  ┃ ╭━━━━━━━━━━━━━━━━╮ 
  ┃ ┃ ╭┈────────────╮ 
  ┃ ┃ │❍ 🅼🅴🅽🆄 ❍ 
@@ -68,7 +68,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ┃┃ ⋄ ʟᴇɴɢᴜᴀᴊᴇ » ꜱᴘᴀɴɪꜱʜ 
  ┃┃ ⋄ ᴜꜱᴜᴀʀɪᴏꜱ » %totalreg
  ┃╰━━━━━━━━━━━━━━━━╾• 
- ╰━━━╼Eʅɱσ - Bσƚ╾━━━╯ 
+ ╰━━━╼Abyss - Bot╾━━━╯ 
 
  ╭━━━━━━━━━━━━━━━━╮
      INFO DEL USUARIO          
