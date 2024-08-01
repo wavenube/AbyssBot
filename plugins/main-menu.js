@@ -36,11 +36,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                     title: "MENU ANIME",
                     description: "Se muestra un menú de generación de imágenes anime.",
                     id: `${usedPrefix}animemenu`
-                },
-                {
-                    title: "MENU SUBBOT",
-                    description: "Se muestran opciones para los subbot.",
-                    id: `${usedPrefix}botmenu`
                 }
             ]
         }
