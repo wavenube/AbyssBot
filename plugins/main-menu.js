@@ -3,7 +3,10 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     let mainMessage = 'Elije la opción que quieras:';
 
     // Opciones del menú desplegable
-    let listSections = [
+    let listSections = [];
+    for (let index in ytres) {
+        let v = ytres[index];
+        listSections.push({
         {
             title: "Opciones",
             rows: [
