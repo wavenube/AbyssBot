@@ -46,7 +46,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
     let totalreg = Object.keys(global.db.data.users).length;
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length;
 
-    let textTemplate = ` ╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
+    let textTemplate = `  ╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
  ┃ ╭━━━━━━━━━━━━━━━━╮ 
  ┃ ┃ ╭┈────────────╮ 
  ┃ ┃ │❍ 🅼🅴🅽🆄 ❍ 
@@ -71,7 +71,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ║🧰 EXPERIENCIA ➟ %exp
  ║⚓ RANGO ➟ %role
  ║💎 DIAMANTES ➟ %diamond 
- ║💸 DOLARES ➟ %coin
+ ║💸 DOLARES ➟ %coins
  ╰═══════════════ ✧ 
 
 
