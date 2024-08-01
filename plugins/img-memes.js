@@ -1,11 +1,32 @@
-/*   Creditos - ig : https://www.instagram.com/fg98._/    */
-import hispamemes from 'hispamemes';
-const handler = async (m, {command, conn}) => {
-  const url = await hispamemes.meme();
-  conn.sendFile(m.chat, url, 'error.jpg', `_🤣 ${command} 🤣_`, m);
-};
-// conn.sendButton(m.chat, `_${command}_`.trim(), author, url, [['🔄 𝚂𝙸𝙶𝚄𝙸𝙴𝙽𝚃𝙴 🔄', `/${command}`]], m)}
+import axios from 'axios';
+
+// URL de la Meme API
+const MEME_API_URL = 'https://meme-api.com/gimme';
+
+const handler = async (m, { conn }) => {
+    try {
+        // Hacer la solicitud a la API para obtener un meme aleatorio
+        const response = await axios.get(MEME_API_URL);
+        const meme = response.data;
+
+        // Verificar si la API devolvió un meme válido
+        if (meme && meme.url) {
+            // Enviar el meme al chat
+            await conn.sendMessage(m.chat, { image: { url: meme.url }, caption: meme.title }, { quoted: m });
+        } else {
+            // Enviar un mensaje de error si no se pudo obtener un meme
+            m.reply('No se pudo obtener un meme en este momento, por favor intenta más tarde.');
+        }
+    } catch (error) {
+        // Manejo de errores
+        m.reply('Hubo un error al obtener el meme. Por favor intenta más tarde.');
+        console.error(error);
+    }
+}
+
+handler.command = /^meme$/i;
+handler.group = false; // El comando se puede usar en chats individuales
 handler.help = ['meme'];
-handler.tags = ['random'];
-handler.command = /^(meme|memes)$/i;
+handler.tags = ['fun'];
+
 export default handler;
