@@ -46,7 +46,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
     let totalreg = Object.keys(global.db.data.users).length;
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length;
 
-    let textTemplate = `  ╭━━❍Eʅɱσ - Bσƚ❍━━╮ 
+    let textTemplate = `*╭━━❍Eʅɱσ - Bσƚ❍━━╮*
  ┃ ╭━━━━━━━━━━━━━━━━╮ 
  ┃ ┃ ╭┈────────────╮ 
  ┃ ┃ │❍ 🅼🅴🅽🆄 ❍ 
@@ -71,7 +71,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
  ║🧰 EXPERIENCIA ➟ %exp
  ║⚓ RANGO ➟ %role
  ║💎 DIAMANTES ➟ %diamond 
- ║💸 DOLARES ➟ %coins
+ ║💸 DOLARES ➟ %balance
  ╰═══════════════ ✧ 
 
 
@@ -80,7 +80,8 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 Ⓟ = Premium
 ⓓ = Diamantes
 
-┌─⊷ ACERCA DE
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「ACERCA DE」
 ▢ .blocklist
 ▢ .info
 ▢ .owner
@@ -94,21 +95,24 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .support
 └───────────
 
-┌─⊷ SUB BOTS
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「SUB BOTS」
 ▢ .botclone
 ▢ .botlist
 ▢ .txbot
 ▢ .stop
 └───────────
 
-┌─⊷ JUEGOS
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「JUEGOS」
 ▢ .dado
 ▢ .mates <modo>
 ▢ .ppt
 ▢ .slot <apuesta>
 └───────────
 
-┌─⊷ NIVEL & ECONOMIA
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「NIVEL & ECONOMIA」
 ▢ .balance
 ▢ .buy
 ▢ .daily
@@ -120,13 +124,15 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .work
 └───────────
 
-┌─⊷ REGISTRO
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「REGISTRO」
 ▢ .reg <nombre.edad.género>
 ▢ .mysn
 ▢ .unreg <Num Serie>
 └───────────
 
-┌─⊷ STICKER
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「STICKER」
 ▢ .attp <text>
 ▢ .emojimix <emoji+emoji> (ⓓ)
 ▢ .getsticker (ⓓ)
@@ -140,7 +146,8 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .take <nombre>|<autor>
 └───────────
 
-┌─⊷ IMAGEN
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「IMAGEN」
 ▢ .tvid (ⓓ)
 ▢ .couple (ⓓ)
 ▢ .imagen (ⓓ)
@@ -151,7 +158,8 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .wallpaper (ⓓ)
 └───────────
 
-┌─⊷ MAKER
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「MAKER」
 ▢ .logololi (ⓓ)
 ▢ .graffiti2 (ⓓ)
 ▢ .3dbox (ⓓ)
@@ -179,13 +187,15 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .lightglow (ⓓ)
 └───────────
 
-┌─⊷ PREMIUM
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「PREMIUM」
 ▢ .gdrive (ⓓ)
 ▢ .mediafire <url> (ⓓ)
 ▢ .xnxx (ⓓ)
 └───────────
 
-┌─⊷ GRUPO
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「GRUPO」
 ▢ .add
 ▢ .delete
 ▢ .delwarn @user
@@ -209,26 +219,30 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .checkexpired
 └───────────
 
-┌─⊷ EN/DISABLE OPCIONES
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「EN/DISABLE OPCIONES」
 ▢ .enable <option>
 ▢ .disable <option>
 └───────────
 
-┌─⊷ ANIME
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「ANIME」
 ▢ .waifu (ⓓ)
 ▢ .neko (ⓓ)
 ▢ .megumin (ⓓ)
 ▢ .loli (ⓓ)
 └───────────
 
-┌─⊷ ANIME REACCION
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「ANIME REACCION」
 ▢ .kill @tag (ⓓ)
 ▢ .kiss @tag (ⓓ)
 ▢ .pat @tag (ⓓ)
 ▢ .slap @tag (ⓓ)
 └───────────
 
-┌─⊷ DESCARGAS
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「DESCARGAS」
 ▢ .facebook <url> (ⓓ)
 ▢ .gdrive (ⓓ)
 ▢ .gitclone <url> (ⓓ)
