@@ -1,49 +1,43 @@
 import axios from 'axios';
 
+// URL de la API de Trivia
 const TRIVIA_API_URL = 'https://opentdb.com/api.php?amount=1&type=multiple';
 const triviaData = {}; // Objeto para almacenar datos de trivia por grupo
 
-// Comando para iniciar el juego de trivia
-const triviaHandler = async (m, { conn }) => {
+const handler = async (m, { conn, text }) => {
     const chatId = m.chat;
-    
-    try {
+
+    if (text && text.toLowerCase() === 'trivia') {
         // Obtener una pregunta de trivia
-        const response = await axios.get(TRIVIA_API_URL);
-        const trivia = response.data.results[0];
-        const question = trivia.question;
-        const correctAnswer = trivia.correct_answer;
-        const allAnswers = [...trivia.incorrect_answers, correctAnswer].sort(() => Math.random() - 0.5);
+        try {
+            const response = await axios.get(TRIVIA_API_URL);
+            const trivia = response.data.results[0];
+            const question = trivia.question;
+            const correctAnswer = trivia.correct_answer;
+            const allAnswers = [...trivia.incorrect_answers, correctAnswer].sort(() => Math.random() - 0.5);
 
-        // Enviar la pregunta al chat
-        let message = `🎉 *Trivia Time!*\n\n${question}\n\n`;
-        allAnswers.forEach((answer, index) => {
-            message += `${index + 1}. ${answer}\n`;
-        });
+            // Enviar la pregunta al chat
+            let message = `🎉 *Trivia Time!*\n\n${question}\n\n`;
+            allAnswers.forEach((answer, index) => {
+                message += `${index + 1}. ${answer}\n`;
+            });
 
-        // Guardar la respuesta correcta para verificación
-        triviaData[chatId] = { correctAnswer, asked: Date.now() };
+            // Guardar la respuesta correcta para verificación
+            triviaData[chatId] = { correctAnswer, asked: Date.now() };
 
-        await conn.sendMessage(chatId, { text: message }, { quoted: m });
-    } catch (error) {
-        m.reply('Hubo un error al obtener la trivia. Por favor intenta más tarde.');
-        console.error(error);
-    }
-};
+            await conn.sendMessage(chatId, { text: message }, { quoted: m });
+        } catch (error) {
+            m.reply('Hubo un error al obtener la trivia. Por favor intenta más tarde.');
+            console.error(error);
+        }
+    } else if (text.match(/^[1-4]$/)) {
+        // Verificar si hay una pregunta activa en el grupo
+        if (triviaData[chatId] && triviaData[chatId].asked) {
+            const correctAnswer = triviaData[chatId].correctAnswer;
+            const answerNumber = parseInt(text);
 
-// Manejador para verificar las respuestas
-const answerHandler = async (m, { conn, text }) => {
-    const chatId = m.chat;
-    
-    // Verificar si hay una pregunta activa en el grupo
-    if (triviaData[chatId] && triviaData[chatId].asked) {
-        const correctAnswer = triviaData[chatId].correctAnswer;
-        const allAnswers = [1, 2, 3, 4]; // Opciones válidas para la trivia
-
-        // Verificar si la respuesta es válida
-        const answerNumber = parseInt(text);
-        if (allAnswers.includes(answerNumber)) {
             // Obtener la opción seleccionada por el usuario
+            const allAnswers = [1, 2, 3, 4];
             const selectedAnswer = allAnswers[answerNumber - 1];
 
             if (selectedAnswer === correctAnswer) {
@@ -55,18 +49,14 @@ const answerHandler = async (m, { conn, text }) => {
             // Limpiar los datos de trivia después de la respuesta
             delete triviaData[chatId];
         } else {
-            conn.sendMessage(chatId, 'Por favor selecciona una opción válida (1-4).', { quoted: m });
+            conn.sendMessage(chatId, 'No hay una trivia activa en este momento. Usa el comando *trivia* para comenzar.', { quoted: m });
         }
     }
 };
 
-export default {
-    triviaHandler,
-    answerHandler,
-};
-handler.command = /^(quote|cita)$/i;
-handler.group = false; // Puede ser usado en chats individuales
-handler.help = ['quote'];
+handler.command = /^trivia$/i;
+handler.group = true; // Puede ser usado en grupos
+handler.help = ['trivia'];
 handler.tags = ['fun'];
 
 export default handler;
