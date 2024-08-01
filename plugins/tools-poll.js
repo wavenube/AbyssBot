@@ -1,22 +1,23 @@
 import axios from 'axios';
 
-const QUOTE_API_URL = 'https://api.quotable.io/random';
+const FACT_API_URL = 'https://api.api-ninjas.com/v1/facts?limit=1';
 
 const handler = async (m, { conn }) => {
     try {
-        const response = await axios.get(QUOTE_API_URL);
-        const quote = response.data;
-        const message = `"${quote.content}" — ${quote.author}`;
-        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
+        const response = await axios.get(FACT_API_URL, {
+            headers: { 'X-Api-Key': 'YOUR_API_KEY' } // Reemplaza con tu clave API
+        });
+        const fact = response.data[0].fact;
+        await conn.sendMessage(m.chat, { text: `🧐 Dato Curioso: ${fact}` }, { quoted: m });
     } catch (error) {
-        m.reply('Hubo un error al obtener la cita. Por favor intenta más tarde.');
+        m.reply('Hubo un error al obtener el dato curioso. Por favor intenta más tarde.');
         console.error(error);
     }
 };
 
-handler.command = /^quote$/i;
+handler.command = /^fact$/i;
 handler.group = true;
-handler.help = ['quote'];
+handler.help = ['fact'];
 handler.tags = ['fun'];
 
 export default handler;
