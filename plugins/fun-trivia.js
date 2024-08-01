@@ -23,22 +23,21 @@ const handler = async (m, { conn, text }) => {
             });
 
             // Guardar la respuesta correcta para verificación
-            triviaData[chatId] = { correctAnswer, asked: Date.now() };
+            triviaData[chatId] = { correctAnswer, asked: Date.now(), allAnswers };
 
             await conn.sendMessage(chatId, { text: message }, { quoted: m });
         } catch (error) {
             m.reply('Hubo un error al obtener la trivia. Por favor intenta más tarde.');
             console.error(error);
         }
-    } else if (text.match(/^[1-4]$/)) {
+    } else if (/^[1-4]$/.test(text)) {
         // Verificar si hay una pregunta activa en el grupo
         if (triviaData[chatId] && triviaData[chatId].asked) {
             const correctAnswer = triviaData[chatId].correctAnswer;
             const answerNumber = parseInt(text);
 
             // Obtener la opción seleccionada por el usuario
-            const allAnswers = [1, 2, 3, 4];
-            const selectedAnswer = allAnswers[answerNumber - 1];
+            const selectedAnswer = triviaData[chatId].allAnswers[answerNumber - 1];
 
             if (selectedAnswer === correctAnswer) {
                 conn.sendMessage(chatId, '¡Correcto! 🎉', { quoted: m });
@@ -51,10 +50,12 @@ const handler = async (m, { conn, text }) => {
         } else {
             conn.sendMessage(chatId, 'No hay una trivia activa en este momento. Usa el comando *trivia* para comenzar.', { quoted: m });
         }
+    } else {
+        conn.sendMessage(chatId, 'Por favor usa el comando *trivia* para comenzar un juego de trivia o responde con un número del 1 al 4.', { quoted: m });
     }
 };
 
-handler.command = /^trivia$/i;
+handler.command = /^(trivia|quiz)$/i;
 handler.group = true; // Puede ser usado en grupos
 handler.help = ['trivia'];
 handler.tags = ['fun'];
