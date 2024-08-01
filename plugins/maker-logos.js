@@ -13,7 +13,7 @@ switch (command) {
 	conn.sendFile(m.chat, img, 'logo.png', `✅ ${mssg.result}`, m)
 	m.react(done)
 	break 
-	case 'neon': 
+	/*case 'neon': 
 	if (!text) throw tee
 	let ne = global.API('fgmods', '/api/textpro/neon', { text }, 'apikey')
 	conn.sendFile(m.chat, ne, 'logo.png', `✅ ${mssg.result}`, m)
@@ -166,11 +166,11 @@ switch (command) {
 	let gff2 = global.API('fgmods', '/api/textpro/graffiti2', { text: i, text2: j}, 'apikey')
 	conn.sendFile(m.chat, gff2, 'logo.png', `✅ ${mssg.result}`, m)
 	m.react(done)
-	break 
+	break */
 	default:
 } 
 } 
-handler.help = ['logololi', 'graffiti2', '3dbox', 'future', 'ninja', 'marvel', 'paper', 'glitch', 'halloween', 'green', 'american', 'neon', 'devil', 'wolf', 'phlogo', 'transformer', 'thunder', 'graffiti', 'bpink', 'joker', 'matrix', 'glow', 'ballon', 'dmd', 'lightglow']
+handler.help = ['logololi'/*, 'graffiti2', '3dbox', 'future', 'ninja', 'marvel', 'paper', 'glitch', 'halloween', 'green', 'american', 'neon', 'devil', 'wolf', 'phlogo', 'transformer', 'thunder', 'graffiti', 'bpink', 'joker', 'matrix', 'glow', 'ballon', 'dmd', 'lightglow'*/]
 handler.tags = ['maker']
 handler.command = /^(logololi|graffiti2|3dbox|future|ninja|marvel|paper|glitch|neon|green|halloween|american|devil|wolf|phlogo|transformer|thunder|graffiti|bpink|joker|matrix|glow|ballon|dmd|lightglow)$/i
 handler.diamond = true
