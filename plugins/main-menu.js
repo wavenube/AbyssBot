@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                 {
                     title: "MENU RESTRICT",
                     description: "Se usa para activar el modo gestión de grupo.",
-                    id: `${usedPrefix}menurestrict`
+                    id: `${usedPrefix}enable`
                 },
                 {
                     title: "MENU ACERCA-DE",
