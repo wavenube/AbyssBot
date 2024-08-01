@@ -339,7 +339,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
   }
 };
 
-handler.help = ['pruebas', 'help'];
+handler.help = ['menu', 'help'];
 handler.tags = ['main'];
 handler.command = ['menu', 'help'];
 
