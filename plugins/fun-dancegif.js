@@ -81,7 +81,7 @@ const answerHandler = async (m, { conn, text }) => {
 
 handler.command = /^guessnumber$/i;
 handler.group = true;
-handler.help = ['guessnumber'];
+handler.help = ['guessnumber','rndnum'];
 handler.tags = ['fun'];
 
 export default { handler, answerHandler };
