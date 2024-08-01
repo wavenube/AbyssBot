@@ -1,91 +1,35 @@
-import { setTimeout } from 'node:timers';
+import axios from 'axios';
 
-const TIME_LIMIT = 60000; // Tiempo en milisegundos (60 segundos)
-const MAX_SCORE = 10; // Puntuación máxima para ganar
+const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const WEATHER_API_KEY = 'a359ec4c8f438594900cb9b05f4617a9'; // Reemplaza con tu clave API
 
-let gameData = {}; // Para almacenar datos de juegos en curso
+const handler = async (m, { conn, text }) => {
+    if (!text) return m.reply('Por favor proporciona el nombre de la ciudad.');
 
-// Comando para iniciar el juego
-const handler = async (m, { conn }) => {
-    const chatId = m.chat;
-
-    if (gameData[chatId]) {
-        return conn.sendMessage(m.chat, { text: '¡Un juego de adivinanza ya está en curso!' }, { quoted: m });
-    }
-
-    // Iniciar un nuevo juego
-    const targetNumber = Math.floor(Math.random() * 100) + 1;
-    gameData[chatId] = {
-        targetNumber,
-        players: {},
-        timer: null,
-        startTime: Date.now(),
-    };
-
-    // Enviar mensaje de inicio del juego
-    await conn.sendMessage(m.chat, { text: '🎉 ¡El juego de adivinanza ha comenzado! Adivina el número entre 1 y 100. Tienes 60 segundos para participar.' }, { quoted: m });
-
-    // Iniciar el temporizador para el juego
-    gameData[chatId].timer = setTimeout(async () => {
-        const results = Object.entries(gameData[chatId].players)
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 3) // Top 3 jugadores
-            .map(([userId, score]) => `@${userId} con ${score} puntos`);
-
-        const resultsMessage = results.length > 0
-            ? `🕹️ ¡El juego ha terminado!\n\nLos ganadores son:\n${results.join('\n')}`
-            : '🕹️ El juego ha terminado sin ganadores.';
-
-        delete gameData[chatId]; // Eliminar los datos del juego
-
-        await conn.sendMessage(m.chat, { text: resultsMessage }, { quoted: m });
-    }, TIME_LIMIT);
-};
-
-// Manejador de respuestas
-const answerHandler = async (m, { conn, text }) => {
-    const chatId = m.chat;
-    const guessedNumber = parseInt(text);
-
-    if (!gameData[chatId]) {
-        return m.reply('No hay ningún juego en curso. Usa *!guessnumber* para iniciar uno.');
-    }
-
-    if (isNaN(guessedNumber) || guessedNumber < 1 || guessedNumber > 100) {
-        return m.reply('Por favor, adivina un número válido entre 1 y 100.');
-    }
-
-    const game = gameData[chatId];
-    const { targetNumber, players } = game;
-
-    if (players[m.sender]) {
-        return m.reply('Ya has hecho una adivinanza. Espera a que termine el juego para jugar nuevamente.');
-    }
-
-    // Calcular puntos
-    const difference = Math.abs(targetNumber - guessedNumber);
-    const points = Math.max(0, MAX_SCORE - Math.floor(difference / 10));
-
-    // Guardar el puntaje
-    players[m.sender] = (players[m.sender] || 0) + points;
-
-    // Enviar feedback
-    if (guessedNumber === targetNumber) {
-        await conn.sendMessage(m.chat, { text: `🎉 ¡Correcto! El número era ${targetNumber}. @${m.sender} ha ganado ${points} puntos.` }, { quoted: m });
-        delete gameData[chatId]; // Terminar el juego si alguien adivina correctamente
-        clearTimeout(game.timer);
-    } else if (difference <= 10) {
-        await conn.sendMessage(m.chat, { text: `Cálido... El número es ${guessedNumber < targetNumber ? 'mayor' : 'menor'}. Sigue intentando.` }, { quoted: m });
-    } else {
-        await conn.sendMessage(m.chat, { text: `Frío... El número es ${guessedNumber < targetNumber ? 'mayor' : 'menor'}. Sigue intentando.` }, { quoted: m });
+    try {
+        const response = await axios.get(WEATHER_API_URL, {
+            params: {
+                q: text,
+                appid: WEATHER_API_KEY,
+                units: 'metric'
+            }
+        });
+        const weather = response.data;
+        const message = `🌤️ Clima en ${weather.name}:
+        - Temperatura: ${weather.main.temp}°C
+        - Descripción: ${weather.weather[0].description}
+        - Humedad: ${weather.main.humidity}%
+        - Viento: ${weather.wind.speed} m/s`;
+        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
+    } catch (error) {
+        m.reply('Hubo un error al obtener el clima. Por favor intenta más tarde.');
+        console.error(error);
     }
 };
 
-// Configuración del comando
-handler.command = /^guessnumber$/i;
+handler.command = /^weather$/i;
 handler.group = true;
-handler.help = ['guessnumber'];
+handler.help = ['weather'];
 handler.tags = ['fun'];
 
-// Exportar los manejadores
-export default { handler, answerHandler };
+export default handler;
