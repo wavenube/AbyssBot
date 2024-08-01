@@ -1,23 +1,22 @@
 import axios from 'axios';
 
-const FACT_API_URL = 'https://api.api-ninjas.com/v1/facts?limit=1';
+const JOKE_API_URL = 'https://official-joke-api.appspot.com/random_joke';
 
 const handler = async (m, { conn }) => {
     try {
-        const response = await axios.get(FACT_API_URL, {
-            headers: { 'X-Api-Key': 'YOUR_API_KEY' } // Reemplaza con tu clave API
-        });
-        const fact = response.data[0].fact;
-        await conn.sendMessage(m.chat, { text: `🧐 Dato Curioso: ${fact}` }, { quoted: m });
+        const response = await axios.get(JOKE_API_URL);
+        const joke = response.data;
+        const message = `${joke.setup}\n\n${joke.punchline}`;
+        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
     } catch (error) {
-        m.reply('Hubo un error al obtener el dato curioso. Por favor intenta más tarde.');
+        m.reply('Hubo un error al obtener el chiste. Por favor intenta más tarde.');
         console.error(error);
     }
 };
 
-handler.command = /^fact$/i;
+handler.command = /^joke$/i;
 handler.group = true;
-handler.help = ['fact'];
+handler.help = ['joke'];
 handler.tags = ['fun'];
 
 export default handler;
