@@ -5,7 +5,7 @@ const handler = async (m, { conn, participants, usedPrefix, command }) => {
     const chatId = m.chat;
 
     // Verificar si el bot tiene permisos restrictivos habilitados
-    if (!global.db.data.settings[conn.user.jid].restrict) throw `${lenguaje['smsAvisoAG']()}${lenguaje['smsSoloOwner']()}`;
+
 
     // Verificar si el comando está en cooldown para el grupo
     if (cooldown[chatId] && (Date.now() - cooldown[chatId]) < COOLDOWN_TIME) {
