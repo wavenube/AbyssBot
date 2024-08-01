@@ -26,11 +26,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
         }
     ];
 
-    // Imagen opcional
-    let image = './path/to/image.jpg';  // Reemplaza con la ruta a una imagen válida
-
     // Enviar el menú desplegable
-    await conn.sendList(m.chat, 'Menú Desplegable', mainMessage, 'Selecciona una opción', image, listSections, m);
+    await conn.sendList(m.chat, '  ≡ *Menú Desplegable*', `\n ${mainMessage}`, 'Selecciona una opción', null, listSections, m);
 };
 
 handler.help = ['menuopciones']
