@@ -13,7 +13,7 @@ switch (command) {
 	conn.sendFile(m.chat, img, 'logo.png', `✅ ${mssg.result}`, m)
 	m.react(done)
 	break 
-	/*case 'neon': 
+	case 'neon': 
 	if (!text) throw tee
 	let ne = global.API('fgmods', '/api/textpro/neon', { text }, 'apikey')
 	conn.sendFile(m.chat, ne, 'logo.png', `✅ ${mssg.result}`, m)
@@ -166,7 +166,7 @@ switch (command) {
 	let gff2 = global.API('fgmods', '/api/textpro/graffiti2', { text: i, text2: j}, 'apikey')
 	conn.sendFile(m.chat, gff2, 'logo.png', `✅ ${mssg.result}`, m)
 	m.react(done)
-	break */
+	break 
 	default:
 } 
 } 
