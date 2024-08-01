@@ -24,20 +24,17 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                     title: "3",
                     description: "Opción 3",
                     rowId: `${usedPrefix}opcion3`
-                }
+               }
             ]
-        }
-    ];
+        });
+    }
 
-    // Imagen opcional
-    let image = './path/to/image.jpg';  // Reemplaza con la ruta a una imagen válida
-
-    // Enviar el menú desplegable
-    await conn.sendList(m.chat, 'Menú Desplegable', mainMessage, 'Selecciona una opción', image, listSections, m);
+    await conn.sendList(m.chat, '  ≡ *FG MUSIC*🔎', `\n 📀 Resultados de:\n *${text}*`, `Click Aqui`, ytres[0].image, listSections, m);
 };
 
-handler.help = ['menuopciones']
-handler.tags = ['main']
-handler.command = ['menuopciones', 'menuopts'] 
+handler.help = ['menuopts']
+handler.tags = ['menu']
+handler.command = ['menuopts', 'help'] 
+handler.disabled = false
 
-export default handler;
+export default handler
