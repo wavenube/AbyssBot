@@ -1,20 +1,22 @@
-const handler = async (m, { conn, text }) => {
-    if (!text) return m.reply('Por favor proporciona la pregunta de la encuesta y las opciones. Ejemplo: *poll ¿Cuál es tu color favorito? Azul, Verde, Rojo*');
+import axios from 'axios';
 
-    const parts = text.split(',');
-    if (parts.length < 2) return m.reply('Debes proporcionar al menos una opción.');
+const QUOTE_API_URL = 'https://api.quotable.io/random';
 
-    const question = parts.shift().trim();
-    const options = parts.map((option, index) => `${index + 1}. ${option.trim()}`).join('\n');
-
-    await conn.sendMessage(m.chat, {
-        text: `📊 *Encuesta:* ${question}\n\n${options}\n\nResponde con el número de la opción que prefieres.`,
-    }, { quoted: m });
+const handler = async (m, { conn }) => {
+    try {
+        const response = await axios.get(QUOTE_API_URL);
+        const quote = response.data;
+        const message = `"${quote.content}" — ${quote.author}`;
+        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
+    } catch (error) {
+        m.reply('Hubo un error al obtener la cita. Por favor intenta más tarde.');
+        console.error(error);
+    }
 };
 
-handler.command = /^poll$/i;
+handler.command = /^quote$/i;
 handler.group = true;
-handler.help = ['poll'];
+handler.help = ['quote'];
 handler.tags = ['fun'];
 
 export default handler;
