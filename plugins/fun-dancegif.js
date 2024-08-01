@@ -1,21 +1,21 @@
 import axios from 'axios';
 
-const DANCE_GIF_API_URL = 'https://api.giphy.com/v1/gifs/random?api_key=YOUR_API_KEY&tag=dance';
+const COINFLIP_API_URL = 'https://random-coin-flip-api.herokuapp.com/flip';
 
 const handler = async (m, { conn }) => {
     try {
-        const response = await axios.get(DANCE_GIF_API_URL);
-        const gifUrl = response.data.data.image_original_url;
-        await conn.sendMessage(m.chat, { image: { url: gifUrl }, caption: '¡Es hora de bailar!' }, { quoted: m });
+        const response = await axios.get(COINFLIP_API_URL);
+        const result = response.data.result ? 'Cara' : 'Cruz';
+        await conn.sendMessage(m.chat, { text: `🪙 El resultado es: ${result}` }, { quoted: m });
     } catch (error) {
-        m.reply('Hubo un error al obtener el GIF de baile. Por favor intenta más tarde.');
+        m.reply('Hubo un error al lanzar la moneda. Por favor intenta más tarde.');
         console.error(error);
     }
 };
 
-handler.command = /^dance$/i;
+handler.command = /^coinflip$/i;
 handler.group = true;
-handler.help = ['dance'];
+handler.help = ['coinflip'];
 handler.tags = ['fun'];
 
 export default handler;
