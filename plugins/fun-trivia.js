@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 const TRIVIA_API_URL = 'https://opentdb.com/api.php?amount=1&type=multiple';
+const triviaData = {}; // Objeto para almacenar datos de trivia por grupo
 
-const handler = async (m, { conn }) => {
+// Comando para iniciar el juego de trivia
+const triviaHandler = async (m, { conn }) => {
+    const chatId = m.chat;
+    
     try {
         // Obtener una pregunta de trivia
         const response = await axios.get(TRIVIA_API_URL);
@@ -18,36 +22,45 @@ const handler = async (m, { conn }) => {
         });
 
         // Guardar la respuesta correcta para verificación
-        conn.data = conn.data || {};
-        conn.data[m.chat] = { correctAnswer, asked: Date.now() };
+        triviaData[chatId] = { correctAnswer, asked: Date.now() };
 
-        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
+        await conn.sendMessage(chatId, { text: message }, { quoted: m });
     } catch (error) {
         m.reply('Hubo un error al obtener la trivia. Por favor intenta más tarde.');
         console.error(error);
     }
 };
 
+// Manejador para verificar las respuestas
 const answerHandler = async (m, { conn, text }) => {
-    if (conn.data && conn.data[m.chat] && conn.data[m.chat].asked) {
-        const correctAnswer = conn.data[m.chat].correctAnswer;
-        const answerNumber = parseInt(text);
+    const chatId = m.chat;
+    
+    // Verificar si hay una pregunta activa en el grupo
+    if (triviaData[chatId] && triviaData[chatId].asked) {
+        const correctAnswer = triviaData[chatId].correctAnswer;
+        const allAnswers = [1, 2, 3, 4]; // Opciones válidas para la trivia
 
-        if (answerNumber && answerNumber >= 1 && answerNumber <= 4) {
-            const selectedAnswer = correctAnswer;
+        // Verificar si la respuesta es válida
+        const answerNumber = parseInt(text);
+        if (allAnswers.includes(answerNumber)) {
+            // Obtener la opción seleccionada por el usuario
+            const selectedAnswer = allAnswers[answerNumber - 1];
 
             if (selectedAnswer === correctAnswer) {
-                conn.sendMessage(m.chat, '¡Correcto! 🎉', { quoted: m });
+                conn.sendMessage(chatId, '¡Correcto! 🎉', { quoted: m });
             } else {
-                conn.sendMessage(m.chat, 'Incorrecto. 😔', { quoted: m });
+                conn.sendMessage(chatId, 'Incorrecto. 😔', { quoted: m });
             }
+
+            // Limpiar los datos de trivia después de la respuesta
+            delete triviaData[chatId];
         } else {
-            conn.sendMessage(m.chat, 'Por favor selecciona una opción válida (1-4).', { quoted: m });
+            conn.sendMessage(chatId, 'Por favor selecciona una opción válida (1-4).', { quoted: m });
         }
     }
 };
 
-handler.command = /^(trivia|quiz)$/i;
-handler.group = true;
-
-export default handler;
+export default {
+    triviaHandler,
+    answerHandler,
+};
