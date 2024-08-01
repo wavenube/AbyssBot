@@ -11,7 +11,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                     header: 'Todos los Menus',
                     title: "menu completo",
                     description: "Muestra el menu con todos los comandos del Bot",
-                    id: `${usedPrefix}opcion1`
+                    id: `${usedPrefix}allmenu`
                 },
                 {
                     title: "menu audio",
@@ -34,6 +34,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
 
 handler.help = ['menuopciones']
 handler.tags = ['main']
-handler.command = ['menuopciones', 'menuopts'] 
+handler.command = ['menu', 'help'] 
 
 export default handler;
