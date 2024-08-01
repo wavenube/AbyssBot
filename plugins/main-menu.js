@@ -8,7 +8,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             title: "TODOS LOS MENUS",
             rows: [
                 {
-                    title: "mallmenu",
+                    title: "allmenu",
                     description: "Se muestra el menu general del Bot.",
                     id: `${usedPrefix}allmenu`
                 },
@@ -19,7 +19,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                 },
                 {
                     header: 'menu grupo',
-                    title: "Herramientas",
                     description: "Se envian unicamente las opciones de gestion de grupo.",
                     id: `${usedPrefix}menugrupo`
                 },
