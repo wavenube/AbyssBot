@@ -5,6 +5,7 @@ const MAX_SCORE = 10; // Puntuación máxima para ganar
 
 let gameData = {}; // Para almacenar datos de juegos en curso
 
+// Comando para iniciar el juego
 const handler = async (m, { conn }) => {
     const chatId = m.chat;
 
@@ -41,6 +42,7 @@ const handler = async (m, { conn }) => {
     }, TIME_LIMIT);
 };
 
+// Manejador de respuestas
 const answerHandler = async (m, { conn, text }) => {
     const chatId = m.chat;
     const guessedNumber = parseInt(text);
@@ -79,9 +81,11 @@ const answerHandler = async (m, { conn, text }) => {
     }
 };
 
+// Configuración del comando
 handler.command = /^guessnumber$/i;
 handler.group = true;
-handler.help = ['guessnumber','rndnum'];
+handler.help = ['guessnumber'];
 handler.tags = ['fun'];
 
+// Exportar los manejadores
 export default { handler, answerHandler };
