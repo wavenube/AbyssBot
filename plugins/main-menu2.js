@@ -11,6 +11,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
   try {
     let user = global.db.data.users[who]
     let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
+    if (!(who in global.db.data.users)) throw `✳️ ${mssg.userDb}`
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {};
     let { exp, diamond, level, role } = global.db.data.users[m.sender];
     let { min, xp, max } = xpRange(level, global.multiplier);
