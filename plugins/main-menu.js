@@ -1,6 +1,6 @@
 let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // Mensaje principal
-    let mainMessage = 'Elije la opción que quieras:';
+    let mainMessage = 'Selecciona el menu que deseas obtener:';
 
     // Opciones del menú desplegable
     let listSections = [
@@ -8,18 +8,20 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             title: "Opciones",
             rows: [
                 {
-                    title: "1",
-                    description: "Opción 1",
+                    header: 'Todos los Menus',
+                    title: "menu completo",
+                    description: "Muestra el menu con todos los comandos del Bot",
                     id: `${usedPrefix}opcion1`
                 },
                 {
-                    title: "2",
-                    description: "Opción 2",
+                    title: "menu audio",
+                    description: "Se muestra un menu solo con los audios que trae incorporado el Bot",
                     id: `${usedPrefix}opcion2`
                 },
                 {
-                    title: "3",
-                    description: "Opción 3",
+                    header: 'Tools',
+                    title: "Herramientas",
+                    description: "Se envian unicamente las herramientas y cosas a destacar del Bot",
                     id: `${usedPrefix}opcion3`
                 }
             ]
