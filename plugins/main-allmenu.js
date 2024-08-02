@@ -156,7 +156,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 └───────────
 
 ⬛᭢━━━━━━━━━᭥⬛᭢
-╭─「MAKER」
+╭─「MAKER - dont work」
 ▢ .logololi (ⓓ)
 ▢ .graffiti2 (ⓓ)
 ▢ .3dbox (ⓓ)
@@ -255,6 +255,25 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .ytmp3 <url>
 ▢ .ytsearch
 ▢ .ytmp4 <link yt>
+└───────────
+
+⬛᭢━━━━━━━━━᭥⬛᭢
+╭─「HERRAMIENTAS」
+▢ .fetch
+▢ .gemini
+▢ .calc
+▢ .google
+▢ .letra/lyrics
+▢ .openai
+▢ .raid (admin - warn)
+▢ .randomname
+▢ .readmore
+▢ .readviewonce
+▢ .ssweb
+▢ .tourl
+▢ .translate
+▢ .tts
+▢ .wikipedia
 └───────────
 ` // Resto del mensaje
 
