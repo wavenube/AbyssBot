@@ -43,7 +43,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     fs.unlinkSync(audioFilePath);
 };
 
-handler.help = ['play'];
+handler.help = ['play3'];
 handler.tags = ['music'];
 handler.command = ['play3'];
 
