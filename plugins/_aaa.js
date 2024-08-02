@@ -1,55 +1,117 @@
-import { geniusSearch } from 'delirius-api';
-import yts from 'yt-search';
-import ytdl from 'ytdl-core';
-import { pipeline } from 'stream';
-import { promisify } from 'util';
-import fs from 'fs';
-import os from 'os';
+// nsfwMenu.js
+let handler = async (m, { conn, usedPrefix, text, args, command }) => {
+    // Mensaje principal
+    let mainMessage = 'Selecciona el menú NSFW que deseas obtener:';
+    // Opciones del menú desplegable
+    let listSections = [
+        {
+            title: "MENÚ NSFW",
+            rows: [
+                {
+                    title: "WAIFU",
+                    description: "Se muestra contenido NSFW de waifu.",
+                    id: `${usedPrefix}xwaifu`
+                },
+                {
+                    title: "NEKO",
+                    description: "Se muestra contenido NSFW de neko.",
+                    id: `${usedPrefix}xneko`
+                },
+                {
+                    title: "BLOWJOB",
+                    description: "Se muestra contenido NSFW de blowjob.",
+                    id: `${usedPrefix}blowjob`
+                },
+                {
+                    title: "TRAP",
+                    description: "Se muestra contenido NSFW de trap.",
+                    id: `${usedPrefix}trap`
+                },
+                {
+                    title: "YURI",
+                    description: "Se muestra contenido NSFW de yuri.",
+                    id: `${usedPrefix}yuri`
+                },
+                {
+                    title: "CUM",
+                    description: "Se muestra contenido NSFW de cum.",
+                    id: `${usedPrefix}cum`
+                },
+                {
+                    title: "HENTAI",
+                    description: "Se muestra contenido NSFW de hentai.",
+                    id: `${usedPrefix}hentai`
+                },
+                {
+                    title: "ASS",
+                    description: "Se muestra contenido NSFW de ass.",
+                    id: `${usedPrefix}ass`
+                },
+                {
+                    title: "CULOS",
+                    description: "Se muestra contenido NSFW de culos.",
+                    id: `${usedPrefix}culos`
+                },
+                {
+                    title: "BOOBS",
+                    description: "Se muestra contenido NSFW de boobs.",
+                    id: `${usedPrefix}boobs`
+                },
+                {
+                    title: "BOOBIES",
+                    description: "Se muestra contenido NSFW de boobies.",
+                    id: `${usedPrefix}boobies`
+                },
+                {
+                    title: "LESBIAN",
+                    description: "Se muestra contenido NSFW de lesbian.",
+                    id: `${usedPrefix}lesbian`
+                },
+                {
+                    title: "LESBIANS",
+                    description: "Se muestra contenido NSFW de lesbians.",
+                    id: `${usedPrefix}lesbians`
+                },
+                {
+                    title: "PUSSY",
+                    description: "Se muestra contenido NSFW de pussy.",
+                    id: `${usedPrefix}pussy`
+                },
+                {
+                    title: "COSPLAY",
+                    description: "Se muestra contenido NSFW de cosplay.",
+                    id: `${usedPrefix}cosplay`
+                },
+                {
+                    title: "PACK",
+                    description: "Se muestra contenido NSFW de pack.",
+                    id: `${usedPrefix}pack`
+                },
+                {
+                    title: "XNXXSEARCH",
+                    description: "Buscar contenido en xnxx.",
+                    id: `${usedPrefix}xnxxsearch`
+                },
+                {
+                    title: "XNXXDL",
+                    description: "Descargar contenido de xnxx.",
+                    id: `${usedPrefix}xnxxdl`
+                },
+                {
+                    title: "XNXX",
+                    description: "Ver contenido de xnxx.",
+                    id: `${usedPrefix}xnxx`
+                }
+            ]
+        }
+    ];
 
-const streamPipeline = promisify(pipeline);
-
-let handler = async (m, { conn, command, text, usedPrefix }) => {
-    try {
-        if (!text) throw `✳️ Ejemplo: *${usedPrefix + command}* Taylor Swift Love Story`;
-
-        // Buscar la canción en Genius
-        let geniusRes = await geniusSearch(text);
-        if (!geniusRes || !geniusRes.hits || !geniusRes.hits.length) throw `✳️ Canción no encontrada`;
-
-        // Buscar el video en YouTube
-        let ytRes = await yts(text);
-        let vid = ytRes.videos[0];
-        if (!vid) throw `✳️ Vídeo no encontrado`;
-
-        // Descargar el audio del video de YouTube
-        const audioStream = ytdl(vid.url, { filter: 'audioonly', quality: 'highestaudio' });
-        const tmpDir = os.tmpdir();
-        const audioFilePath = `${tmpDir}/${vid.title}.mp3`;
-
-        await streamPipeline(audioStream, fs.createWriteStream(audioFilePath));
-
-        // Enviar el audio
-        let message = `
-        ≡ *FG MUSIC*
-        ┌──────────────
-        ▢ 📌 *Título:* ${vid.title}
-        ▢ 📆 *Subido:* ${vid.ago}
-        ▢ ⌚ *Duración:* ${vid.timestamp}
-        ▢ 👀 *Vistas:* ${vid.views.toLocaleString()}
-        └──────────────
-        `;
-        await conn.sendFile(m.chat, audioFilePath, `${vid.title}.mp3`, message, m);
-
-        // Eliminar el archivo temporal
-        fs.unlinkSync(audioFilePath);
-    } catch (e) {
-        console.error(e);
-        await m.reply(`❎ Error: ${e.message}`);
-    }
+    // Enviar el menú desplegable
+    await conn.sendList(m.chat, '  ≡ *Menú NSFW Desplegable*', `\n ${mainMessage}`, 'Selecciona una opción', null, listSections, m);
 };
 
-handler.help = ['play'];
-handler.tags = ['music'];
-handler.command = ['play3'];
+handler.help = ['nsfwmenu']
+handler.tags = ['nsfw']
+handler.command = ['nsfwmenu', 'nsfwhelp']
 
 export default handler;
