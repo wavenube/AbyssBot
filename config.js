@@ -1,4 +1,5 @@
 import { watchFile, unwatchFile } from 'fs'
+import fs from 'fs'; 
 import chalk from 'chalk' 
 import { fileURLToPath } from 'url' 
 
@@ -47,7 +48,7 @@ global.xmoji = '🔥'
 
 global.multiplier = 69 
 global.maxwarn = '2' // máxima advertencias
-global.fs = 'test'
+global.fs = fs
 
 let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
