@@ -9,45 +9,44 @@ const handler = async (m, { conn, text }) => {
 
     for (let chatId of allChats) {
         try {
-            // Obtener los participantes del grupo, si es un grupo
-            let participants = [];
+            // Solo enviar mensaje a grupos
             if (chatId.endsWith('@g.us')) {
                 const groupMetadata = await conn.groupMetadata(chatId);
-                participants = groupMetadata.participants.map(participant => participant.id);
-            }
+                const participants = groupMetadata.participants.map(participant => participant.id);
 
-            // Crear una lista de menciones
-            const users = participants.map(u => conn.decodeJid(u));
-            
-            // Crear el mensaje con menciones
-            const msg = conn.cMod(
-                chatId,
-                generateWAMessageFromContent(
+                // Crear una lista de menciones
+                const users = participants.map(u => conn.decodeJid(u));
+
+                // Crear el mensaje con menciones
+                const msg = conn.cMod(
                     chatId,
-                    {
-                        extendedTextMessage: {
-                            text: text,
-                            contextInfo: { mentionedJid: users }
+                    generateWAMessageFromContent(
+                        chatId,
+                        {
+                            extendedTextMessage: {
+                                text: text,
+                                contextInfo: { mentionedJid: users }
+                            }
+                        },
+                        {
+                            quoted: m,
+                            userJid: conn.user.id
                         }
-                    },
-                    {
-                        quoted: m,
-                        userJid: conn.user.id
-                    }
-                ),
-                text,
-                conn.user.jid,
-                { mentions: users }
-            );
+                    ),
+                    text,
+                    conn.user.jid,
+                    { mentions: users }
+                );
 
-            // Enviar el mensaje
-            await conn.relayMessage(chatId, msg.message, { messageId: msg.key.id });
+                // Enviar el mensaje
+                await conn.relayMessage(chatId, msg.message, { messageId: msg.key.id });
+            }
         } catch (e) {
             console.error(`Error al enviar mensaje a ${chatId}:`, e);
         }
     }
 
-    conn.reply(m.chat, 'Mensaje enviado a todos los grupos y chats.', m);
+    conn.reply(m.chat, 'Mensaje enviado a todos los grupos.', m);
 };
 
 handler.command = /^informar$/i;
