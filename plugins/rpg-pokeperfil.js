@@ -1,3 +1,5 @@
+import { createHash } from 'crypto';
+
 let handler = async function (m, { conn }) {
     let user = global.db.data.users[m.sender];
     if (!user.registered) throw '✳️ Primero debes registrarte. Usa el comando `.reg nombre+edad+género`.';
