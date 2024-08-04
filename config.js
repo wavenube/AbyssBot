@@ -47,7 +47,7 @@ global.xmoji = '🔥'
 
 global.multiplier = 69 
 global.maxwarn = '2' // máxima advertencias
-global.fgif = {key: {participant: '0@s.whatsapp.net'}, message: {'videoMessage': {'title': wm, 'h': `Hmm`, 'seconds': '999999999', 'gifPlayback': 'true', 'caption': bottime, 'jpegThumbnail': fs.readFileSync('./Menu.png')}}};
+global.fg = 'test'
 
 let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
