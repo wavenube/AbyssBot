@@ -1,4 +1,3 @@
-/*
 import fetch from 'node-fetch'
 import axios from 'axios'
 let handler = async (m, { conn, usedPrefix, command }) => {
@@ -51,9 +50,9 @@ default:
  }
 
 }
-handler.help = ['xwaifu', 'xneko', 'blowjob', 'trap', 'yuri', 'cum', 'hentai']
+handler.help = ['xwaifu', 'xneko', 'trap', 'cum']
 handler.tags = ['ansfw']
-handler.command = /^(xwaifu|xneko|blowjob|trap|yuri|cum|hentai)$/i
+handler.command = /^(xwaifu|xneko|trap|)$/i
 handler.diamond = true
 handler.register = true
 handler.group = true
