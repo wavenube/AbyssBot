@@ -27,7 +27,7 @@ const translations = {
     recon: 'Koneksi terputus...',
     sesClose: 'Koneksi ditutup, Anda harus terhubung secara manual dengan mengirimkan *ID*',
     connet: 'Terhubung berhasil',
-    connID: '*Terhubung berhasil!*\n\nDalam beberapa detik, kami akan mengirimkan *ID* yang harus Anda gunakan untuk terhubung kembali\n\n*CATATAN:* Keluar dari grup *DyLux ┃ BOT*\nsimpan tautan ini agar Anda dapat bergabung lagi nanti\nhttps://instabio.cc/fg98ff',
+    connID: '*Terhubung berhasil!*\n\nDalam beberapa detik, kami akan mengirimkan *ID* yang harus Anda gunakan untuk terhubung kembali\n\n*CATATAN:* Keluar dari grup *Senna ┃ BOT*\nsimpan tautan ini agar Anda dapat bergabung lagi nanti\nhttps://chat.whatsapp.com/IYsbScC3cMzBcakINRWJL6',
     connMsg: 'Ketika Anda terhubung selanjutnya, kirim pesan berikut untuk masuk tanpa memindai kode QR lainnya',
     botlist: 'Daftar Sub Bot Aktif',
     newcode: (usedPrefix) => `Baik! Anda sekarang dapat menggunakan *${usedPrefix}jadibot* untuk meminta kode QR baru`,
