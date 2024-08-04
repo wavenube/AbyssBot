@@ -12,6 +12,12 @@ let handler = async (m, { conn, text }) => {
     try {
         // Obtener información del video
         let info = await ytdl.getInfo(text);
+
+        // Verificar si el video está disponible
+        if (info.videoDetails.isPrivate || info.videoDetails.isLiveContent) {
+            throw '❗ El video solicitado no está disponible (privado o en vivo).';
+        }
+
         let format = ytdl.chooseFormat(info.formats, { quality: 'highest' });
 
         let videoTitle = info.videoDetails.title.replace(/[\/\?<>\\:\*\|":]/g, ''); // Limpiar el título del video
@@ -34,10 +40,10 @@ let handler = async (m, { conn, text }) => {
             });
     } catch (err) {
         console.error(err);
-        if (err.statusCode === 410) {
+        if (err.response && err.response.status === 410) {
             conn.reply(m.chat, '❗ El video solicitado ya no está disponible (Error 410).', m);
         } else {
-            conn.reply(m.chat, '❗ Error al obtener la información del video.', m);
+            conn.reply(m.chat, `❗ Error al obtener la información del video: ${err.message}`, m);
         }
     }
 };
