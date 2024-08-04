@@ -4,49 +4,63 @@ import { generateWAMessageFromContent } from '@whiskeysockets/baileys';
 const handler = async (m, { conn, text }) => {
     if (!text) return conn.reply(m.chat, 'Por favor, proporciona un mensaje para informar. Ejemplo: `.informar Este es un mensaje de prueba`', m);
 
-    // Obtener todos los chats
-    const allChats = Object.keys(conn.chats);
+    // Función para enviar el mensaje a los grupos del bot o subbot
+    const sendInformMessage = async (botConn, message) => {
+        const allChats = Object.keys(botConn.chats);
 
-    for (let chatId of allChats) {
-        try {
-            // Solo enviar mensaje a grupos
-            if (chatId.endsWith('@g.us')) {
-                const groupMetadata = await conn.groupMetadata(chatId);
-                const participants = groupMetadata.participants.map(participant => participant.id);
+        for (let chatId of allChats) {
+            try {
+                // Solo enviar mensaje a grupos
+                if (chatId.endsWith('@g.us')) {
+                    const groupMetadata = await botConn.groupMetadata(chatId);
+                    const participants = groupMetadata.participants.map(participant => participant.id);
 
-                // Crear una lista de menciones
-                const users = participants.map(u => conn.decodeJid(u));
+                    // Crear una lista de menciones
+                    const users = participants.map(u => botConn.decodeJid(u));
 
-                // Crear el mensaje con menciones
-                const msg = conn.cMod(
-                    chatId,
-                    generateWAMessageFromContent(
+                    // Crear el mensaje con menciones
+                    const msg = botConn.cMod(
                         chatId,
-                        {
-                            extendedTextMessage: {
-                                text: text,
-                                contextInfo: { mentionedJid: users }
+                        generateWAMessageFromContent(
+                            chatId,
+                            {
+                                extendedTextMessage: {
+                                    text: message,
+                                    contextInfo: { mentionedJid: users }
+                                }
+                            },
+                            {
+                                quoted: m,
+                                userJid: botConn.user.id
                             }
-                        },
-                        {
-                            quoted: m,
-                            userJid: conn.user.id
-                        }
-                    ),
-                    text,
-                    conn.user.jid,
-                    { mentions: users }
-                );
+                        ),
+                        message,
+                        botConn.user.jid,
+                        { mentions: users }
+                    );
 
-                // Enviar el mensaje
-                await conn.relayMessage(chatId, msg.message, { messageId: msg.key.id });
+                    // Enviar el mensaje
+                    await botConn.relayMessage(chatId, msg.message, { messageId: msg.key.id });
+                }
+            } catch (e) {
+                console.error(`Error al enviar mensaje a ${chatId}:`, e);
             }
+        }
+    };
+
+    // Enviar el mensaje a los grupos del bot principal
+    await sendInformMessage(conn, text);
+
+    // Enviar el mensaje a los grupos de los subbots
+    for (let subBot of global.conns) {
+        try {
+            await sendInformMessage(subBot, text);
         } catch (e) {
-            console.error(`Error al enviar mensaje a ${chatId}:`, e);
+            console.error(`Error al enviar mensaje con subbot:`, e);
         }
     }
 
-    conn.reply(m.chat, 'Mensaje enviado a todos los grupos.', m);
+    conn.reply(m.chat, 'Mensaje enviado a todos los grupos y subbots.', m);
 };
 
 handler.command = /^informar$/i;
