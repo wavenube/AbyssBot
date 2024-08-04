@@ -27,6 +27,6 @@ let handler = async (m, { conn }) => {
     conn.reply(m.chat, 'El envío automático de personajes de anime ha sido activado.', m);
 };
 
-handler.command = /^startanime$/i;
+handler.command = /^startanime2$/i;
 handler.owner = true; // Solo el propietario del bot puede usar este comando para evitar spam
 export default handler;
