@@ -64,6 +64,5 @@ const handler = async (m, { conn, text }) => {
 };
 
 handler.command = /^informar$/i;
-handler.admin = true; // Solo administradores pueden usar este comando
 handler.owner = true; // Solo el propietario del bot puede usar este comando
 export default handler;
