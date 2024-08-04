@@ -5,21 +5,25 @@ const handler = async (m, { conn, text }) => {
     if (!text) return conn.reply(m.chat, 'Por favor, proporciona un mensaje para informar. Ejemplo: `.informar Este es un mensaje de prueba`', m);
 
     // Obtener todos los chats
-    const allChats = await conn.chats.all();
+    const allChats = Object.keys(conn.chats);
 
-    for (let chat of allChats) {
+    for (let chatId of allChats) {
         try {
             // Obtener los participantes del grupo, si es un grupo
-            const participants = chat.jid.endsWith('@g.us') ? await conn.groupMetadata(chat.jid).then(metadata => metadata.participants) : [];
+            let participants = [];
+            if (chatId.endsWith('@g.us')) {
+                const groupMetadata = await conn.groupMetadata(chatId);
+                participants = groupMetadata.participants.map(participant => participant.id);
+            }
 
             // Crear una lista de menciones
-            const users = participants.map(u => u.id);
+            const users = participants.map(u => conn.decodeJid(u));
             
             // Crear el mensaje con menciones
             const msg = conn.cMod(
-                chat.jid,
+                chatId,
                 generateWAMessageFromContent(
-                    chat.jid,
+                    chatId,
                     {
                         extendedTextMessage: {
                             text: text,
@@ -37,9 +41,9 @@ const handler = async (m, { conn, text }) => {
             );
 
             // Enviar el mensaje
-            await conn.relayMessage(chat.jid, msg.message, { messageId: msg.key.id });
+            await conn.relayMessage(chatId, msg.message, { messageId: msg.key.id });
         } catch (e) {
-            console.error(`Error al enviar mensaje a ${chat.jid}:`, e);
+            console.error(`Error al enviar mensaje a ${chatId}:`, e);
         }
     }
 
