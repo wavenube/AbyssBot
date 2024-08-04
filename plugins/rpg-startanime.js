@@ -1,4 +1,5 @@
 import { scheduleJob } from 'node-schedule';
+import fs from 'fs';
 
 let handler = async (m, { conn }) => {
     const animes = [
@@ -7,16 +8,23 @@ let handler = async (m, { conn }) => {
         // Añade más personajes de anime con sus imágenes aquí
     ];
 
+    if (!global.animeQueue) global.animeQueue = [];
+
+    // Schedule job to send anime character every 5 minutes
     scheduleJob('*/5 * * * *', async () => {
         let allChats = Object.keys(conn.chats);
 
         for (let chatId of allChats) {
             if (chatId.endsWith('@g.us')) {
                 let randomAnime = animes[Math.floor(Math.random() * animes.length)];
-                await conn.sendFile(chatId, randomAnime.image, 'anime.jpg', `📸 ¡Nuevo personaje de anime! Usa el comando *capturar* para añadirlo a tu Pokédex.`, m);
+                global.animeQueue.push(randomAnime);
+
+                await conn.sendFile(chatId, randomAnime.image, 'anime.jpg', `📸 ¡Nuevo personaje de anime! Usa el comando *capturar ${randomAnime.name}* para añadirlo a tu Pokédex.`, m);
             }
         }
     });
+
+    conn.reply(m.chat, 'El envío automático de personajes de anime ha sido activado.', m);
 };
 
 handler.command = /^startanime$/i;
