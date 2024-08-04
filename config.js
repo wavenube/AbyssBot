@@ -2,6 +2,8 @@ import { watchFile, unwatchFile } from 'fs'
 import fs from 'fs'; 
 import chalk from 'chalk' 
 import { fileURLToPath } from 'url' 
+import { scheduleJob } from 'node-schedule';
+import node-schedule from 'node-schedule'
 
 global.owner = [
   ['34682075812', 'FG98', true],
