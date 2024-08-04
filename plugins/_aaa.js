@@ -1,24 +1,18 @@
-import axios from 'axios';
+import figlet from 'figlet';
 
-const handler = async (m, { conn }) => {
-    const URL = 'https://official-joke-api.appspot.com/random_joke';
+let handler = async (m, { conn, text }) => {
+    if (!text) throw '❗ Por favor, proporciona un texto para convertir en arte ASCII.';
 
-    try {
-        const response = await axios.get(URL);
-        const { setup, punchline } = response.data;
-
-        const message = `😂 *Chiste del Día*\n\n` +
-                        `🃏 ${setup}\n\n` +
-                        `🤣 ${punchline}`;
-
-        conn.reply(m.chat, message, m);
-    } catch (error) {
-        conn.reply(m.chat, 'No se pudo obtener un chiste. Por favor, intenta de nuevo más tarde.', m);
-        console.error(error);
-    }
+    // Generar el arte ASCII
+    figlet(text, (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        conn.reply(m.chat, '```' + data + '```', m);
+    });
 };
 
-handler.command = /^chiste$/i;
-handler.admin = false; // Permitir que todos los usuarios usen este comando
-handler.owner = false;
+handler.command = /^asciiart$/i;
+handler.owner = false; // No es necesario que solo el propietario del bot pueda usar este comando
 export default handler;
