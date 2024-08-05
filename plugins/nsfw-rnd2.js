@@ -28,7 +28,7 @@ const handler = async (m, { conn, args }) => {
 
 handler.help = ['nsfw <category>'];
 handler.tags = ['nsfw'];
-handler.command = ['pnsfw'];
+handler.command = ['nsfw2'];
 
 handler.register = true; // Si es necesario registrarse para usar el comando
 handler.group = true; // Si el comando debe ser usado solo en grupos
