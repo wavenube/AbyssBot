@@ -1,7 +1,7 @@
-import { scheduleJob } from 'node-schedule';
+import schedule from 'node-schedule';
 import fetch from 'node-fetch';
 
-const handler = async (m, { conn, text, args, usedPrefix, command }) => {
+const handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args || args.length < 1) {
         throw `✳️ Uso correcto: ${usedPrefix + command} <intervalo>`;
     }
@@ -16,7 +16,7 @@ const handler = async (m, { conn, text, args, usedPrefix, command }) => {
     const cantidad = parseInt(match[1]);
     const unidad = match[2];
 
-    // Convertir el intervalo a cron format
+    // Convertir el intervalo a formato cron
     let cronExp;
     switch (unidad) {
         case 's':
@@ -43,7 +43,7 @@ const handler = async (m, { conn, text, args, usedPrefix, command }) => {
 
     // Define la tarea programada
     global.imageJobs = global.imageJobs || {};
-    global.imageJobs[m.chat] = scheduleJob(cronExp, async () => {
+    global.imageJobs[m.chat] = schedule.scheduleJob(cronExp, async () => {
         try {
             const response = await fetch(galleryURL);
             if (!response.ok) throw new Error(`Error en la galería: ${response.statusText}`);
