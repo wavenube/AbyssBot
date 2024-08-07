@@ -1,56 +1,68 @@
-import fetch from 'node-fetch';
 import fs from 'fs';
-import { writeFile } from 'fs/promises';
+import FormData from 'form-data';
+import fetch from 'node-fetch';
+import { sticker } from '../lib/sticker.js';
 
-const handler = async (m, { conn, args }) => {
-    const apiKey = 'x4zQNrX1hM-Qy5xwG1rr447zBqp7PIg-ChqDLr8qK3';
-    const text = args.join(' ') || 'https://night-api.com'; // El texto para codificar en el QR
-
-    const requestBody = {
-        text: text,
-        size: 500, // Tamaño del QR en píxeles
-        colorDark: '#000000', // Color de los bloques del QR
-        colorLight: '#FFFFFF', // Color de las áreas vacías del QR
-        autoColor: true, // Calcular automáticamente colorDark desde el fondo
-    };
+const handler = async (m, { conn, usedPrefix, command }) => {
+    const datas = global;
+    const idioma = datas.db.data.users[m.sender].language;
+    const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`));
+    const tradutor = _translate.plugins.herramientas_hd;
 
     try {
-        const response = await fetch('https://api.night-api.com/images/qrcode', {
-            method: 'GET',
-            headers: {
-                authorization: apiKey,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error en la API: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const buffer = Buffer.from(data.content.data);
-
-        // Guardar el QR en un archivo temporal
-        const filePath = '/tmp/qrcode.png';
-        await writeFile(filePath, buffer);
-
-        // Enviar el archivo QR en el chat
-        await conn.sendFile(m.chat, filePath, 'qrcode.png', `📸 Aquí está tu código QR para: ${text}`, m);
-
-        // Eliminar el archivo temporal después de enviarlo
-        fs.unlinkSync(filePath);
-    } catch (error) {
-        console.error(error);
-        await conn.reply(m.chat, `❎ No se pudo generar el código QR.`, m);
+        let q = m.quoted ? m.quoted : m;
+        let mime = (q.msg || q).mimetype || q.mediaType || '';
+        if (!mime) throw `${tradutor.texto1} ${usedPrefix + command}*`;
+        if (!/image\/(jpe?g|png)/.test(mime)) throw `${tradutor.texto2[0]} (${mime}) ${tradutor.texto2[1]}`;
+        m.reply(tradutor.texto3);
+        let img = await q.download?.();
+        let pr = await remini(img, 'enhance');
+        await conn.sendMessage(m.chat, { image: pr }, { quoted: m });
+    } catch (e) {
+        console.error(e);
+        throw tradutor.texto4;
     }
 };
 
-handler.help = ['qrcode <texto>'];
-handler.tags = ['tools'];
-handler.command = ['qrcode'];
-
-handler.register = true; // Si es necesario registrarse para usar el comando
-handler.group = true; // Si el comando debe ser usado solo en grupos
-
+handler.help = ['remini', 'hd', 'enhance'];
+handler.tags = ['ai', 'tools'];
+handler.command = ['remini', 'hd', 'enhance'];
 export default handler;
+
+async function remini(imageData, operation) {
+    return new Promise(async (resolve, reject) => {
+        const availableOperations = ['enhance', 'recolor', 'dehaze'];
+        if (!availableOperations.includes(operation)) {
+            operation = availableOperations[0];
+        }
+
+        const baseUrl = `https://inferenceengine.vyro.ai/${operation}.vyro`;
+        const formData = new FormData();
+        formData.append('image', Buffer.from(imageData), {
+            filename: 'enhance_image_body.jpg',
+            contentType: 'image/jpeg'
+        });
+        formData.append('model_version', 1, {
+            'Content-Transfer-Encoding': 'binary',
+            contentType: 'multipart/form-data; charset=utf-8'
+        });
+
+        formData.submit({
+            url: baseUrl,
+            host: 'inferenceengine.vyro.ai',
+            path: `/${operation}`,
+            protocol: 'https:',
+            headers: {
+                'User-Agent': 'okhttp/4.9.3',
+                'Connection': 'Keep-Alive',
+                'Accept-Encoding': 'gzip'
+            }
+        }, (err, res) => {
+            if (err) reject(err);
+            const chunks = [];
+            res.on('data', chunk => chunks.push(chunk));
+            res.on('end', () => resolve(Buffer.concat(chunks)));
+            res.on('error', err => reject(err));
+        });
+    });
+}
