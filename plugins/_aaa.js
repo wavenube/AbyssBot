@@ -1,63 +1,60 @@
-import fetch from 'node-fetch';
-import PDFDocument from 'pdfkit';
-import fs from 'fs';
-import path from 'path';
-import { extractImageThumb } from '@whiskeysockets/baileys';
-import axios from 'axios';
 
-const handler = async (m, { conn, text, usedPrefix, command, args }) => {
-  const datas = global;
-  const idioma = datas.db.data.users[m.sender].language;
-  const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`));
-  const tradutor = _translate.plugins.adult_hentaipdf;
 
-  if (!datas.db.data.chats[m.chat].modohorny && m.isGroup) throw tradutor.texto1;
-  if (!text) throw `${tradutor.texto2} ${usedPrefix + command} ${tradutor.texto2_1}`;
-  try {
-    m.reply(global.wait);
-    const res = await fetch(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${lolkeysapi}&query=${text}`);
-    const json = await res.json();
-    const aa = json.result[0].id;
-    const data = await nhentaiScraper(aa);
-    const pages = [];
-    const thumb = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`;
-    data.images.pages.map((v, i) => {
-      const ext = new URL(v.t).pathname.split('.')[1];
-      pages.push(`https://external-content.duckduckgo.com/iu/?u=https://i7.nhentai.net/galleries/${data.media_id}/${i + 1}.${ext}`);
-    });
-    const buffer = await (await fetch(thumb)).buffer();
-    const jpegThumbnail = await extractImageThumb(buffer);
-    const imagepdf = await toPDF(pages);
-    await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m });
-  } catch (e) {
-    console.error(e);
-    throw `${tradutor.texto3}`;
-  }
-};
+async function handler(m, {usedPrefix, command}) {
+  const datas = global
+  const idioma = datas.db.data.users[m.sender].language
+  const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`))
+  const tradutor = _translate.plugins.anonymous_chat
 
-handler.command = /^(hentaipdf)$/i;
-export default handler;
-
-async function nhentaiScraper(id) {
-  const uri = id ? `https://cin.guru/v/${+id}/` : 'https://cin.guru/';
-  const html = (await axios.get(uri)).data;
-  return JSON.parse(html.split('<script id="__NEXT_DATA__" type="application/json">')[1].split('</script>')[0]).props.pageProps.data;
-}
-
-function toPDF(images, opt = {}) {
-  return new Promise(async (resolve, reject) => {
-    if (!Array.isArray(images)) images = [images];
-    const buffs = [];
-    const doc = new PDFDocument({ margin: 0, size: 'A4' });
-    for (let x = 0; x < images.length; x++) {
-      if (/.webp|.gif/.test(images[x])) continue;
-      const data = (await axios.get(images[x], { responseType: 'arraybuffer', ...opt })).data;
-      doc.image(data, 0, 0, { fit: [595.28, 841.89], align: 'center', valign: 'center' });
-      if (images.length != x + 1) doc.addPage();
+  command = command.toLowerCase();
+  this.anonymous = this.anonymous ? this.anonymous : {};
+  switch (command) {
+    case 'next':
+    case 'leave': {
+      const room = Object.values(this.anonymous).find((room) => room.check(m.sender));
+      if (!room) return this.sendMessage(other, {text: `${tradutor.texto1} ${usedPrefix}start`}, {quoted: m});
+      // this.sendButton(m.chat, '*[❗𝐈𝐍𝐅𝐎❗] 𝙽𝙾 𝙴𝚂𝚃𝙰𝚂 𝙴𝙽 𝚄𝙽 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾*\n\n*¿𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝚄𝙽𝙾?*\n_𝙳𝙰 𝙲𝙻𝙸𝙲𝙺 𝙴𝙽 𝙴𝙻 𝚂𝙸𝙶𝚄𝙸𝙴𝙽𝚃𝙴 𝙱𝙾𝚃𝙾𝙽_', author, null, [['𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾', `.start`]], m)
+      m.reply(tradutor.texto2);
+      const other = room.other(m.sender);
+      if (other) await this.sendMessage(other, {text: `${tradutor.texto3} ${usedPrefix}start`}, {quoted: m});
+      // this.sendButton(other, '*[❗𝐈𝐍𝐅𝐎❗] 𝙴𝙻 𝙾𝚃𝚁𝙾 𝚄𝚂𝚄𝙰𝚁𝙸𝙾 𝙰𝙷 𝙰𝙱𝙰𝙽𝙳𝙾𝙽𝙰𝙳𝙾 𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾*\n\n*¿𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝙸𝚁 𝙰 𝙾𝚃𝚁𝙾 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾?*\n_𝙳𝙰 𝙲𝙻𝙸𝙲𝙺 𝙴𝙽 𝙴𝙻 𝚂𝙸𝙶𝚄𝙸𝙴𝙽𝚃𝙴 𝙱𝙾𝚃𝙾𝙽_', author, null, [['𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾', `.start`]], m)
+      delete this.anonymous[room.id];
+      if (command === 'leave') break;
     }
-    doc.on('data', (chunk) => buffs.push(chunk));
-    doc.on('end', () => resolve(Buffer.concat(buffs)));
-    doc.on('error', (err) => reject(err));
-    doc.end();
-  });
+    case 'start': {
+      if (Object.values(this.anonymous).find((room) => room.check(m.sender))) return this.sendMessage(m.chat, {text: `${tradutor.texto4} ${usedPrefix}leave`}, {quoted: m});
+      // this.sendButton(m.chat, '*[❗𝐈𝐍𝐅𝐎❗] 𝚃𝙾𝙳𝙰𝚅𝙸𝙰 𝙴𝚂𝚃𝙰𝚂 𝙴𝙽 𝚄𝙽 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾 𝙾 𝙴𝚂𝙿𝙴𝚁𝙰𝙽𝙳𝙾 𝙰 𝚀𝚄𝙴 𝙾𝚃𝚁𝙾 𝚄𝚂𝚄𝙰𝚁𝙸𝙾 𝚂𝙴 𝚄𝙽𝙰 𝙿𝙰𝚁𝙰 𝙸𝙽𝙸𝙲𝙸𝙰𝚁*\n\n*¿𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝚂𝙰𝙻𝙸𝚁 𝙳𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾?*\n_𝙳𝙰 𝙲𝙻𝙸𝙲𝙺 𝙴𝙽 𝙴𝙻 𝚂𝙸𝙶𝚄𝙸𝙴𝙽𝚃𝙴 𝙱𝙾𝚃𝙾𝙽_', author, null, [['𝚂𝙰𝙻𝙸𝚁 𝙳𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾', `.leave`]], m)
+      const room = Object.values(this.anonymous).find((room) => room.state === 'WAITING' && !room.check(m.sender));
+      if (room) {
+        await this.sendMessage(room.a, {text: `${tradutor.texto5}`}, {quoted: m});
+        // this.sendButton(room.a, '*[ ✔ ] 𝚄𝙽𝙰 𝙿𝙴𝚁𝚂𝙾𝙽𝙰 𝚂𝙴 𝙰𝙷 𝚄𝙽𝙸𝙳𝙾 𝙰𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾, 𝙿𝚄𝙴𝙳𝙴𝙽 𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝙰 𝙲𝙷𝙰𝚃𝙴𝙰𝚁*', author, null, [['𝙸𝚁 𝙰 𝙾𝚃𝚁𝙾 𝙲𝙷𝙰𝚃', `.next`]], m)
+        room.b = m.sender;
+        room.state = 'CHATTING';
+        await this.sendMessage(m.chat, {text: `${tradutor.texto6} ${usedPrefix}next`}, {quoted: m});
+        // this.sendButton(m.chat, '*[ ✔ ] 𝚄𝙽𝙰 𝙿𝙴𝚁𝚂𝙾𝙽𝙰 𝚂𝙴 𝙰𝙷 𝚄𝙽𝙸𝙳𝙾 𝙰𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾, 𝙿𝚄𝙴𝙳𝙴𝙽 𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝙰 𝙲𝙷𝙰𝚃𝙴𝙰𝚁*', author, null, [['𝙸𝚁 𝙰 𝙾𝚃𝚁𝙾 𝙲𝙷𝙰𝚃', `.next`]], m)
+      } else {
+        const id = + new Date;
+        this.anonymous[id] = {
+          id,
+          a: m.sender,
+          b: '',
+          state: 'WAITING',
+          check: function(who = '') {
+            return [this.a, this.b].includes(who);
+          },
+          other: function(who = '') {
+            return who === this.a ? this.b : who === this.b ? this.a : '';
+          },
+        };
+        await this.sendMessage(m.chat, {text: `${tradutor.texto7} ${usedPrefix}leave`}, {quoted: m});
+        // this.sendButton(m.chat, '*[❗𝐈𝐍𝐅𝐎❗] 𝙴𝚂𝙿𝙴𝚁𝙰𝙽𝙳𝙾 𝙰 𝙾𝚃𝚁𝙾 𝚄𝚂𝚄𝙰𝚁𝙸𝙾 𝙿𝙰𝚁𝙰 𝙸𝙽𝙸𝙲𝙸𝙰𝚁 𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾*\n\n*¿𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝚂𝙰𝙻𝙸𝚁 𝙳𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾?*\n_𝙳𝙰 𝙲𝙻𝙸𝙲𝙺 𝙴𝙽 𝙴𝙻 𝚂𝙸𝙶𝚄𝙸𝙴𝙽𝚃𝙴 𝙱𝙾𝚃𝙾𝙽_', author, null, [['𝚂𝙰𝙻𝙸𝚁 𝙳𝙴𝙻 𝙲𝙷𝙰𝚃 𝙰𝙽𝙾𝙽𝙸𝙼𝙾', `.leave`]], m)
+      }
+      break;
+    }
+  }
 }
+handler.help = ['start', 'leave', 'next'];
+handler.tags = ['anonymous'];
+handler.command = ['start', 'leave', 'next'];
+handler.private = true;
+export default handler;
