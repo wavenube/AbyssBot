@@ -356,7 +356,7 @@ let audioMsg = {
   'oni-chan': './src/mp3/Onichan.mp3',
   'orale': './src/mp3/orale.mp3',
   'pasa pack': './src/mp3/Elmo.mp3',
-  'contexto': './src/mp3/contexto.mp3',
+  'contexto': '/src/mp3/contexto.mp3',
   'pero esto': './src/mp3/pero-esto-ya-es-otro-nivel.mp3',
   'pika': './src/mp3/pikachu.mp3',
   'pokemon': './src/mp3/pokemon.mp3',
