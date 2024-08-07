@@ -751,4 +751,4 @@ let audioMsg = {
   'musica': './src/mp3/la mejor.mp3',
   'musica del verano': './src/mp3/la mejor.mp3'
 
-}
+};
