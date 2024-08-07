@@ -178,7 +178,6 @@ let audioMsg = {
   'qué tal grupo': './src/mp3/Que tal Grupo.mp3',
   'grupos': './src/mp3/Que tal Grupo.mp3',
   // Definir las rutas de los archivos de audio en un objeto para simplificar la gestión
-const audioFiles = {
   'Se están riendo de mí': './src/mp3/Se estan riendo de mi.mp3',
   'Se estan riendo de mi': './src/mp3/Se estan riendo de mi.mp3',
   'Se esta riendo de mi': './src/mp3/Se estan riendo de mi.mp3',
