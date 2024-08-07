@@ -280,6 +280,7 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 ▢ .translate
 ▢ .tts
 ▢ .wikipedia
+▢ .hd (responde imagen)
 └───────────`;
 
       let replace = {
