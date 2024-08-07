@@ -3,6 +3,16 @@ async function handler(m, {usedPrefix, command}) {
   
   command = command.toLowerCase();
   this.anonymous = this.anonymous ? this.anonymous : {};
+  const isAnonymousChat = Object.values(this.anonymous).find((room) => room.check(m.sender));
+
+  if (isAnonymousChat) {
+    const otherUser = isAnonymousChat.other(m.sender);
+    if (otherUser) {
+      await this.sendMessage(otherUser, {text: m.text}, {quoted: m});
+    }
+    return;
+  }
+
   switch (command) {
     case 'next':
     case 'leave': {
