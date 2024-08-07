@@ -1,37 +1,35 @@
-import { fetchJson } from 'your-utils-module'; // Asegúrate de tener un módulo para manejar las solicitudes HTTP.
+import { fetchJson } from 'your-utils-module'; // Importa tu módulo para manejar las solicitudes HTTP.
 
 async function handler(m, { usedPrefix, command, text }) {
   this.anonymous = this.anonymous ? this.anonymous : {};
   command = command.toLowerCase();
-  
-  // Si el comando es `start`
+
+  // Manejo del comando start
   if (command === 'start') {
-    // Verifica si el usuario ya está en un chat
-    const existingRoom = Object.values(this.anonymous).find(room => room.check(m.sender));
+    // Verificar si el usuario ya está en un chat anónimo
+    const existingRoom = Object.values(this.anonymous).find((room) => room.check(m.sender));
     if (existingRoom) {
       return this.sendMessage(m.chat, { text: `*[❗] Ya estás en un chat anónimo. Usa ${usedPrefix}leave para salir.*` }, { quoted: m });
     }
 
-    // Encuentra una sala de chat esperando por otro usuario
-    const room = Object.values(this.anonymous).find(room => room.state === 'WAITING' && !room.check(m.sender));
-    if (room) {
-      const user1 = await getUserDetails(room.a);
-      const user2 = await getUserDetails(m.sender);
-      
-      // Envía detalles a ambos usuarios
-      await this.sendMessage(room.a, {
-        text: `*Información del usuario con el que estás emparejado:*\nNúmero: ${user2.number}\nNombre: ${user2.name}\nFoto de perfil: ${user2.profilePic}\nDescripción: ${user2.description}`
-      }, { quoted: m });
-      
-      await this.sendMessage(m.sender, {
-        text: `*Información del usuario con el que estás emparejado:*\nNúmero: ${user1.number}\nNombre: ${user1.name}\nFoto de perfil: ${user1.profilePic}\nDescripción: ${user1.description}`
-      }, { quoted: m });
-      
-      room.b = m.sender;
-      room.state = 'CHATTING';
+    // Buscar una sala esperando
+    const waitingRoom = Object.values(this.anonymous).find((room) => room.state === 'WAITING' && !room.check(m.sender));
+    if (waitingRoom) {
+      // Emparejar a ambos usuarios
+      waitingRoom.b = m.sender;
+      waitingRoom.state = 'CHATTING';
+
+      // Obtener información del usuario emparejado
+      const user1 = await getUserDetails(waitingRoom.a);
+      const user2 = await getUserDetails(waitingRoom.b);
+
+      // Enviar detalles a ambos usuarios
+      await this.sendMessage(waitingRoom.a, { text: `*Información del usuario con el que estás emparejado:*\n\nNúmero: ${user2.number}\nNombre: ${user2.name}\nFoto de perfil: ${user2.profilePic}\nDescripción: ${user2.description}` }, { quoted: m });
+      await this.sendMessage(waitingRoom.b, { text: `*Información del usuario con el que estás emparejado:*\n\nNúmero: ${user1.number}\nNombre: ${user1.name}\nFoto de perfil: ${user1.profilePic}\nDescripción: ${user1.description}` }, { quoted: m });
+
       await this.sendMessage(m.chat, { text: `*[ ✔ ] Has sido emparejado con otro usuario. Puedes comenzar a chatear en privado.*` }, { quoted: m });
     } else {
-      // Crea una nueva sala de chat
+      // Crear una nueva sala de chat
       const id = +new Date();
       this.anonymous[id] = {
         id,
@@ -47,41 +45,43 @@ async function handler(m, { usedPrefix, command, text }) {
       };
       await this.sendMessage(m.chat, { text: `*[❗] Esperando a otro usuario para iniciar el chat anónimo.\n\nUsa ${usedPrefix}leave para salir del chat anónimo.*` }, { quoted: m });
     }
-  } 
-  // Si el comando es `leave`
-  else if (command === 'leave') {
-    const room = Object.values(this.anonymous).find(room => room.check(m.sender));
-    if (!room) {
-      return this.sendMessage(m.chat, { text: `*[❗] No estás en un chat anónimo. Usa ${usedPrefix}start para iniciar uno.*` }, { quoted: m });
-    }
-    m.reply('*[❗] Has abandonado el chat anónimo*');
-    const other = room.other(m.sender);
-    if (other) {
-      await this.sendMessage(other, { text: `*[❗] El otro usuario ha abandonado el chat anónimo.\n\n¿Quieres iniciar otro?*\nUsa ${usedPrefix}start` }, { quoted: m });
-    }
-    delete this.anonymous[room.id];
   }
-  // Si hay un mensaje de texto en un chat anónimo
+
+  // Manejo de mensajes en el chat anónimo
   else if (text) {
-    const room = Object.values(this.anonymous).find(room => room.check(m.sender));
+    const room = Object.values(this.anonymous).find((room) => room.check(m.sender));
     if (room) {
       const other = room.other(m.sender);
       if (other) {
         await this.sendMessage(other, { text: text }, { quoted: m });
+      } else {
+        await this.sendMessage(m.chat, { text: `*[❗] El otro usuario ha abandonado el chat anónimo.*` }, { quoted: m });
+        delete this.anonymous[room.id];
       }
     }
+  }
+
+  // Manejo del comando leave
+  else if (command === 'leave') {
+    const room = Object.values(this.anonymous).find((room) => room.check(m.sender));
+    if (!room) return this.sendMessage(m.chat, { text: `*[❗] No estás en un chat anónimo. Usa ${usedPrefix}start para iniciar uno.*` }, { quoted: m });
+    
+    // Notificar al otro usuario y eliminar la sala
+    const other = room.other(m.sender);
+    if (other) await this.sendMessage(other, { text: `*[❗] El otro usuario ha abandonado el chat anónimo.\n\n¿Quieres iniciar otro?*\nUsa ${usedPrefix}start` }, { quoted: m });
+    delete this.anonymous[room.id];
+    await this.sendMessage(m.chat, { text: `*[❗] Has abandonado el chat anónimo.*` }, { quoted: m });
   }
 }
 
 // Función para obtener los detalles del usuario
 async function getUserDetails(userId) {
-  // Implementar la lógica para obtener detalles del usuario, por ejemplo:
-  const user = await this.getProfilePicture(userId); // Suponiendo que esta función existe
+  // Implementar la lógica para obtener detalles del usuario. Este es solo un ejemplo.
+  const profilePic = await fetchJson(`https://api.example.com/getProfilePic?user=${userId}`); // Reemplaza con tu propia API
   const number = userId;
-  const name = await this.getUserName(userId); // Suponiendo que esta función existe
-  const profilePic = user.profilePic;
-  const description = await this.getUserDescription(userId); // Suponiendo que esta función existe
-  
+  const name = await fetchJson(`https://api.example.com/getUserName?user=${userId}`); // Reemplaza con tu propia API
+  const description = await fetchJson(`https://api.example.com/getUserDescription?user=${userId}`); // Reemplaza con tu propia API
+
   return { number, name, profilePic, description };
 }
 
