@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import fs from 'fs/promises'; // Importar fs/promises para manejar archivos
 
 let handler = m => m;
 
@@ -15,11 +16,8 @@ handler.all = async function (m) {
           const buffer = await response.buffer();
           await this.sendFile(m.chat, buffer, 'audio.mp3', null, m, true);
         } else {
-          // Verificar si el archivo local existe
-          const fs = require('fs');
-          if (!fs.existsSync(file)) {
-            throw new Error(`File not found: ${file}`);
-          }
+          // Verificar si el archivo local existe usando fs.promises.access
+          await fs.access(file); // Si el archivo no existe, lanzará un error
           await this.sendFile(m.chat, file, 'audio.mp3', null, m, true);
         }
       } catch (error) {
