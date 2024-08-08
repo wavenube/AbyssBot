@@ -1,12 +1,14 @@
 import axios from 'axios';
 import fetch from 'node-fetch';
-const handler = async (m, {command, conn}) => {
-  const datas = global
-    const idioma = datas.db.data.users[m.sender].language
-    const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`))
-    const tradutor = _translate.plugins.adult_comandos
+import fs from 'fs';
 
-  if (!db.data.chats[m.chat].modohorny && m.isGroup) throw tradutor.texto1;
+const handler = async (m, { command, conn }) => {
+  const datas = global; // Asegúrate de que global.db.data.chats esté correctamente definido en tu entorno
+  const chat = datas.db.data.chats[m.chat];
+  
+  // Comprobación para asegurar que el comando no se ejecute en chats donde está prohibido
+  if (!chat.modohorny && m.isGroup) throw 'Comando no permitido en este grupo';
+
 
   if (command == 'nsfwloli') {
     const res = (await axios.get(`https://raw.githubusercontent.com/BrunoSobrino/TheMystic-Bot-MD/master/src/JSON/nsfwloli.json`)).data;
