@@ -1,5 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Obtener el directorio del archivo actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const mediaPath = path.join(__dirname, '../src/mp3');
 
@@ -49,7 +54,6 @@ handler.all = async function(m, { conn }) {
     'vete': 'vete a la verga.mp3',
     'no digas eso papu': 'nopapu.mp3'
   };
-
   // Envío de mensajes de audio
   for (const [key, fileName] of Object.entries(audioFiles)) {
     if (!chat.isBanned && m.text.match(new RegExp(key, 'gi'))) {
