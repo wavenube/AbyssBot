@@ -46,6 +46,7 @@ handler.all = async function(m, { conn }) {
     'buenas noches': 'boanoite.mp3',
     'buenas tardes': 'boatarde.mp3',
     'wtf': 'wtf.mp3',
+    'vete': 'vete a la verga.mp3',
     'no digas eso papu': 'nopapu.mp3'
   };
 
