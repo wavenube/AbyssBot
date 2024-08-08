@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
-import fs from 'fs/promises'; // Importar fs/promises para manejar archivos
+import fs from 'fs/promises';
+import path from 'path';
 
 let handler = m => m;
 
@@ -16,12 +17,18 @@ handler.all = async function (m) {
           const buffer = await response.buffer();
           await this.sendFile(m.chat, buffer, 'audio.mp3', null, m, true);
         } else {
+          // Convertir la ruta relativa a una ruta absoluta
+          const absolutePath = path.resolve(file);
           // Verificar si el archivo local existe usando fs.promises.access
-          await fs.access(file); // Si el archivo no existe, lanzará un error
-          await this.sendFile(m.chat, file, 'audio.mp3', null, m, true);
+          await fs.access(absolutePath); // Si el archivo no existe, lanzará un error
+          await this.sendFile(m.chat, absolutePath, 'audio.mp3', null, m, true);
         }
       } catch (error) {
         console.error(`Error handling file for message "${message}": ${error.message}`);
+        // Log adicional para depuración
+        if (error.code === 'ENOENT') {
+          console.error(`File not found: ${error.path}`);
+        }
       }
       
       break;
