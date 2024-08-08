@@ -3,7 +3,9 @@ import fetch from 'node-fetch';
 import yts from 'yt-search';
 import ytdl from 'ytdl-core';
 import axios from 'axios';
-
+const wm = 'NombreDelBot'; // Define aquí la marca o nombre de tu bot
+const img = 'URL_O_RUTA_DE_IMAGEN'; // Define una imagen si la usas en contextInfo
+const redes = 'URL_O_RUTA_DE_RED_SOCIAL'; // Define un URL si es necesario
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     // VCard para mostrar el mensaje del bot como si fuera un contacto
     let fkontak = { 
