@@ -468,7 +468,7 @@ let audioMsg = {
   'siuuuu': './src/mp3/siu.mp3',
   'siiiiuuuuu': './src/mp3/siu.mp3',
   'SIIIIUUU': './src/mp3/siu.mp3',
-  'ara ara': './src/mp3/Ara ara.mp3',
+  'ara ara': './src/mp3/Ara.mp3',
   'Hey': './src/mp3/jai.mp3',
   'Hei': './src/mp3/jai.mp3',
   'hey': './src/mp3/jai.mp3',
