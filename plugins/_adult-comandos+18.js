@@ -7,7 +7,13 @@ const handler = async (m, { command, conn }) => {
   const chat = datas.db.data.chats[m.chat];
   
   // Comprobación para asegurar que el comando no se ejecute en chats donde está prohibido
-  if (!chat.nsfw && m.isGroup) throw 'Comando no permitido en este grupo';
+  if (!global.db.data.chats[m.chat].nsfw) throw `🚫 ${mssg.gpNsfw(usedPrefix)}`
+   let user = global.db.data.users[m.sender].age
+   if (user < 17) throw `❎ ${mssg.nsfwAge}`
+   
+   m.react(rwait)
+let type = (command).toLowerCase()
+switch (type) {
 
 
   if (command == 'nsfwloli') {
