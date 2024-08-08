@@ -6,8 +6,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const mediaPath = path.join(__dirname, './src/mp3');
+// Definir la ruta al directorio de audios
+const mediaPath = path.join(__dirname, '../src/mp3');
 
+// Función manejadora de mensajes
 const handler = (m) => m;
 
 handler.all = async function(m, { conn }) {
@@ -17,7 +19,7 @@ handler.all = async function(m, { conn }) {
   if ((m.mtype === 'groupInviteMessage' || m.text.startsWith('https://chat') || m.text.startsWith('Abre este enlace')) && !m.isBaileys && !m.isGroup && !chat.isBanned && !m.fromMe) {
     const joinMessage = `@${m.sender.split('@')[0]}, únete al grupo usando el siguiente enlace: https://chat.whatsapp.com/LjJbmdO0qSDEKgB60qivZj`.trim();
     this.sendMessage(m.chat, {
-      text: joinMessage.trim(),
+      text: joinMessage,
       mentions: [...joinMessage.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => v[1] + '@s.whatsapp.net'),
       contextInfo: {
         forwardingScore: 9999999,
@@ -38,7 +40,7 @@ handler.all = async function(m, { conn }) {
     }, { quoted: m });
   }
 
-  // Definición de archivos de audio
+  // Definir archivos de audio y sus palabras clave
   const audioFiles = {
     'hola': 'Hola.mp3',
     'que no': 'queno.mp3',
@@ -54,15 +56,20 @@ handler.all = async function(m, { conn }) {
     'vete': 'vete a la verga.mp3',
     'no digas eso papu': 'nopapu.mp3'
   };
-  // Envío de mensajes de audio
+  // Verificar y enviar mensajes de audio según el texto del mensaje
   for (const [key, fileName] of Object.entries(audioFiles)) {
     if (!chat.isBanned && m.text.match(new RegExp(key, 'gi'))) {
       if (!db.data.chats[m.chat].audios) return;
       if (!db.data.settings[this.user.jid].audios_bot && !m.isGroup) return;
+
       const vn = path.join(mediaPath, fileName);
-      conn.sendPresenceUpdate('recording', m.chat);
-      conn.sendMessage(m.chat, { audio: { url: vn }, fileName: 'error.mp3', mimetype: 'audio/mpeg', ptt: true }, { quoted: m });
-      break; // Salir del bucle después de encontrar una coincidencia
+      if (fs.existsSync(vn)) { // Verificar si el archivo existe
+        conn.sendPresenceUpdate('recording', m.chat);
+        conn.sendMessage(m.chat, { audio: { url: vn }, fileName: fileName, mimetype: 'audio/mpeg', ptt: true }, { quoted: m });
+        break; // Salir del bucle después de encontrar una coincidencia
+      } else {
+        console.error(`Archivo de audio no encontrado: ${vn}`);
+      }
     }
   }
 
