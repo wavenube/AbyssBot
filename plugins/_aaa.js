@@ -82,6 +82,18 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             }
         }
     });
+    try {
+    // Aquí va tu lógica de descarga de audio/video
+} catch (err) {
+    if (err.code === 'ERR_NON_2XX_3XX_RESPONSE') {
+        console.error('Error 403: Acceso denegado - Verifica la clave API o el enlace proporcionado.', err);
+        await conn.reply(m.chat, '⚠️ No se pudo acceder al recurso. Verifica tu enlace de YouTube o intenta más tarde.', m);
+    } else {
+        console.error('Error inesperado:', err);
+        await conn.reply(m.chat, '⚠️ Ocurrió un error inesperado. Por favor, intenta nuevamente más tarde.', m);
+    }
+}
+
 
     try {
         // Descargar y enviar audio
