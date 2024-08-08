@@ -1,93 +1,70 @@
-import { fetchJson } from 'your-utils-module'; // Importa tu módulo para manejar las solicitudes HTTP.
+import fetch from 'node-fetch';
+import yts from 'yt-search';
+import ytdl from 'ytdl-core';
+import axios from 'axios';
+import { youtubedl, youtubedlv2 } from '@bochilteam/scraper';
 
-async function handler(m, { usedPrefix, command, text }) {
-  this.anonymous = this.anonymous ? this.anonymous : {};
-  command = command.toLowerCase();
+let handler = async (m, { conn, command, args, text, usedPrefix }) => {
 
-  // Manejo del comando start
-  if (command === 'start') {
-    // Verificar si el usuario ya está en un chat anónimo
-    const existingRoom = Object.values(this.anonymous).find((room) => room.check(m.sender));
-    if (existingRoom) {
-      return this.sendMessage(m.chat, { text: `*[❗] Ya estás en un chat anónimo. Usa ${usedPrefix}leave para salir.*` }, { quoted: m });
-    }
+    if (!text) return conn.reply(m.chat, `*🤔 ¿Qué estás buscando? 🤔*\n*Ingresa el nombre de la canción*\n\n*Ejemplo:*\n${usedPrefix}play emilia 420`, m, { 
+        contextInfo: { 
+            externalAdReply : { 
+                mediaUrl: null, 
+                mediaType: 1, 
+                description: null, 
+                title: wm, 
+                body: '', 
+                previewType: 0, 
+                thumbnail: img.getRandom(), 
+                sourceUrl: redes.getRandom()
+            }
+        }
+    });
 
-    // Buscar una sala esperando
-    const waitingRoom = Object.values(this.anonymous).find((room) => room.state === 'WAITING' && !room.check(m.sender));
-    if (waitingRoom) {
-      // Emparejar a ambos usuarios
-      waitingRoom.b = m.sender;
-      waitingRoom.state = 'CHATTING';
+    const yt_play = await search(args.join(' '));
+    const texto1 = `📌 *Título* : ${yt_play[0].title}\n📆 *Publicado:* ${yt_play[0].ago}\n⌚ *Duración:* ${secondString(yt_play[0].duration.seconds)}`.trim();
 
-      // Obtener información del usuario emparejado
-      const user1 = await getUserDetails(waitingRoom.a);
-      const user2 = await getUserDetails(waitingRoom.b);
-
-      // Enviar detalles a ambos usuarios
-      await this.sendMessage(waitingRoom.a, { text: `*Información del usuario con el que estás emparejado:*\n\nNúmero: ${user2.number}\nNombre: ${user2.name}\nFoto de perfil: ${user2.profilePic}\nDescripción: ${user2.description}` }, { quoted: m });
-      await this.sendMessage(waitingRoom.b, { text: `*Información del usuario con el que estás emparejado:*\n\nNúmero: ${user1.number}\nNombre: ${user1.name}\nFoto de perfil: ${user1.profilePic}\nDescripción: ${user1.description}` }, { quoted: m });
-
-      await this.sendMessage(m.chat, { text: `*[ ✔ ] Has sido emparejado con otro usuario. Puedes comenzar a chatear en privado.*` }, { quoted: m });
-    } else {
-      // Crear una nueva sala de chat
-      const id = +new Date();
-      this.anonymous[id] = {
-        id,
-        a: m.sender,
-        b: '',
-        state: 'WAITING',
-        check: function (who = '') {
-          return [this.a, this.b].includes(who);
-        },
-        other: function (who = '') {
-          return who === this.a ? this.b : who === this.b ? this.a : '';
-        },
-      };
-      await this.sendMessage(m.chat, { text: `*[❗] Esperando a otro usuario para iniciar el chat anónimo.\n\nUsa ${usedPrefix}leave para salir del chat anónimo.*` }, { quoted: m });
-    }
-  }
-
-  // Manejo de mensajes en el chat anónimo
-  else if (text) {
-    const room = Object.values(this.anonymous).find((room) => room.check(m.sender));
-    if (room) {
-      const other = room.other(m.sender);
-      if (other) {
-        await this.sendMessage(other, { text: text }, { quoted: m });
-      } else {
-        await this.sendMessage(m.chat, { text: `*[❗] El otro usuario ha abandonado el chat anónimo.*` }, { quoted: m });
-        delete this.anonymous[room.id];
-      }
-    }
-  }
-
-  // Manejo del comando leave
-  else if (command === 'leave') {
-    const room = Object.values(this.anonymous).find((room) => room.check(m.sender));
-    if (!room) return this.sendMessage(m.chat, { text: `*[❗] No estás en un chat anónimo. Usa ${usedPrefix}start para iniciar uno.*` }, { quoted: m });
+    let buttons = [['Audio', `${usedPrefix}ytmp3 ${yt_play[0].url}`], ['Video', `${usedPrefix}ytmp4 ${yt_play[0].url}`]];
     
-    // Notificar al otro usuario y eliminar la sala
-    const other = room.other(m.sender);
-    if (other) await this.sendMessage(other, { text: `*[❗] El otro usuario ha abandonado el chat anónimo.\n\n¿Quieres iniciar otro?*\nUsa ${usedPrefix}start` }, { quoted: m });
-    delete this.anonymous[room.id];
-    await this.sendMessage(m.chat, { text: `*[❗] Has abandonado el chat anónimo.*` }, { quoted: m });
-  }
+    if (command === 'play3' || command === 'play4') {
+        const texto2 = `👀 *Vistas:* ${MilesNumber(yt_play[0].views)}`;
+        texto1 += `\n${texto2}`;
+        buttons.push(['Más resultados', `${usedPrefix}yts ${text}`]);
+    }
+
+    await conn.sendButton(m.chat, texto1, botname, yt_play[0].thumbnail, buttons, null, null, m);
 }
 
-// Función para obtener los detalles del usuario
-async function getUserDetails(userId) {
-  // Implementar la lógica para obtener detalles del usuario. Este es solo un ejemplo.
-  const profilePic = await fetchJson(`https://api.example.com/getProfilePic?user=${userId}`); // Reemplaza con tu propia API
-  const number = userId;
-  const name = await fetchJson(`https://api.example.com/getUserName?user=${userId}`); // Reemplaza con tu propia API
-  const description = await fetchJson(`https://api.example.com/getUserDescription?user=${userId}`); // Reemplaza con tu propia API
-
-  return { number, name, profilePic, description };
-}
-
-handler.help = ['start', 'leave'];
-handler.tags = ['anonymous'];
-handler.command = ['start', 'leave'];
-handler.private = true;
+handler.help = ['play', 'play2', 'play3', 'play4'];
+handler.tags = ['downloader'];
+handler.command = ['playto', 'play2', 'play3', 'play4'];
+//handler.limit = 3
+handler.register = true;
 
 export default handler;
+
+async function search(query, options = {}) {
+    const search = await yts.search({ query, hl: 'es', gl: 'ES', ...options });
+    return search.videos;
+}
+
+function MilesNumber(number) {
+    const exp = /(\d)(?=(\d{3})+(?!\d))/g;
+    const rep = '$1.';
+    const arr = number.toString().split('.');
+    arr[0] = arr[0].replace(exp, rep);
+    return arr[1] ? arr.join('.') : arr[0];
+}
+
+function secondString(seconds) {
+    seconds = Number(seconds);
+    const d = Math.floor(seconds / (3600 * 24));
+    const h = Math.floor((seconds % (3600 * 24)) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    const dDisplay = d > 0 ? d + (d == 1 ? ' día, ' : ' días, ') : '';
+    const hDisplay = h > 0 ? h + (h == 1 ? ' hora, ' : ' horas, ') : '';
+    const mDisplay = m > 0 ? m + (m == 1 ? ' minuto, ' : ' minutos, ') : '';
+    const sDisplay = s > 0 ? s + (s == 1 ? ' segundo' : ' segundos') : '';
+    return dDisplay + hDisplay + mDisplay + sDisplay;
+}
