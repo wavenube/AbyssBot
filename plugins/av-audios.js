@@ -1,17 +1,28 @@
+import fetch from 'node-fetch'; // Asegúrate de tener instalado node-fetch
 
-let handler = m => m
+let handler = m => m;
+
 handler.all = async function (m) {
   for (const message in audioMsg) {
     if (new RegExp(`^${message}$`, 'i').test(m.text)) {
-      this.sendFile(m.chat, audioMsg[message], 'audio.mp3', null, m, true)
-      break
+      let file = audioMsg[message];
+      
+      if (file.startsWith('http')) {
+        // Si es una URL, obtenemos el buffer
+        const response = await fetch(file);
+        if (!response.ok) throw new Error(`Failed to fetch ${file}`);
+        const buffer = await response.buffer();
+        file = buffer;
+      }
+
+      this.sendFile(m.chat, file, 'audio.mp3', null, m, true);
+      break;
     }
   }
-  return !0
- }
+  return !0;
+}
 
-export default handler
-
+export default handler;
 
 let audioMsg = {
   'fino': './src/mp3/fino.mp3',
