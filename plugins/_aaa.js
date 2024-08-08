@@ -9,39 +9,50 @@ const img = 'URL_O_RUTA_DE_IMAGEN'; // Define una imagen si la usas en contextIn
 const redes = 'URL_O_RUTA_DE_RED_SOCIAL'; // Define un URL si es necesario
 
 let handler = async (m, { conn, command, args, text, usedPrefix }) => {
-    if (!text) return conn.reply(m.chat, `*🤔 ¿Qué estás buscando? 🤔*\n*Ingresa el nombre de la canción*\n\n*Ejemplo:*\n${usedPrefix}play emilia 420`, m, { 
-        contextInfo: { 
-            externalAdReply : { 
-                mediaUrl: null, 
-                mediaType: 1, 
-                description: null, 
-                title: wm, 
-                body: '', 
-                previewType: 0, 
-                thumbnail: img.getRandom(), 
-                sourceUrl: redes.getRandom()
-            }
+    try {
+        if (!text) {
+            await conn.reply(m.chat, `*🤔 ¿Qué estás buscando? 🤔*\n*Ingresa el nombre de la canción*\n\n*Ejemplo:*\n${usedPrefix}play emilia 420`, m, { 
+                contextInfo: { 
+                    externalAdReply : { 
+                        mediaUrl: null, 
+                        mediaType: 1, 
+                        description: null, 
+                        title: wm, 
+                        body: '', 
+                        previewType: 0, 
+                        thumbnail: img.getRandom(), 
+                        sourceUrl: redes.getRandom()
+                    }
+                }
+            });
+            return;
         }
-    });
 
-    const yt_play = await search(args.join(' '));
-    const texto1 = `📌 *Título* : ${yt_play[0].title}\n📆 *Publicado:* ${yt_play[0].ago}\n⌚ *Duración:* ${secondString(yt_play[0].duration.seconds)}`.trim();
+        const yt_play = await search(args.join(' '));
+        if (!yt_play || yt_play.length === 0) {
+            await conn.reply(m.chat, 'No se encontraron resultados para la búsqueda.', m);
+            return;
+        }
 
-    let buttons = [['Audio', `${usedPrefix}ytmp3 ${yt_play[0].url}`], ['Video', `${usedPrefix}ytmp4 ${yt_play[0].url}`]];
-    
-    if (command === 'play3' || command === 'play4') {
-        const texto2 = `👀 *Vistas:* ${MilesNumber(yt_play[0].views)}`;
-        texto1 += `\n${texto2}`;
-        buttons.push(['Más resultados', `${usedPrefix}yts ${text}`]);
+        const texto1 = `📌 *Título* : ${yt_play[0].title}\n📆 *Publicado:* ${yt_play[0].ago}\n⌚ *Duración:* ${secondString(yt_play[0].duration.seconds)}`.trim();
+
+        let buttons = [['Audio', `${usedPrefix}ytmp3 ${yt_play[0].url}`], ['Video', `${usedPrefix}ytmp4 ${yt_play[0].url}`]];
+        
+        if (command === 'play3' || command === 'play4') {
+            const texto2 = `👀 *Vistas:* ${MilesNumber(yt_play[0].views)}`;
+            buttons.push(['Más resultados', `${usedPrefix}yts ${text}`]);
+        }
+
+        await conn.sendButton(m.chat, texto1, wm, yt_play[0].thumbnail, buttons, null, null, m);
+    } catch (e) {
+        console.error(e);
+        await conn.reply(m.chat, 'Hubo un error al procesar tu solicitud.', m);
     }
-
-    await conn.sendButton(m.chat, texto1, wm, yt_play[0].thumbnail, buttons, null, null, m);
-}
+};
 
 handler.help = ['play', 'play2', 'play3', 'play4'];
 handler.tags = ['downloader'];
 handler.command = ['playto', 'play2', 'play3', 'play4'];
-//handler.limit = 3
 handler.register = true;
 
 export default handler;
