@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const mediaPath = path.join(__dirname, '../src/mp3');
+const mediaPath = path.join(__dirname, './src/mp3');
 
 const handler = (m) => m;
 
