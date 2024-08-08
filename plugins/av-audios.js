@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'; // Asegúrate de tener instalado node-fetch
+import fetch from 'node-fetch'; // Asegúrate de que node-fetch esté instalado
 
 let handler = m => m;
 
@@ -7,15 +7,22 @@ handler.all = async function (m) {
     if (new RegExp(`^${message}$`, 'i').test(m.text)) {
       let file = audioMsg[message];
       
+      // Verificamos si el archivo es una URL
       if (file.startsWith('http')) {
-        // Si es una URL, obtenemos el buffer
-        const response = await fetch(file);
-        if (!response.ok) throw new Error(`Failed to fetch ${file}`);
-        const buffer = await response.buffer();
-        file = buffer;
+        try {
+          // Obtenemos el archivo remoto como un buffer
+          const response = await fetch(file);
+          if (!response.ok) throw new Error(`Failed to fetch ${file}`);
+          const buffer = await response.buffer();
+          // Enviamos el buffer
+          await this.sendFile(m.chat, buffer, 'audio.mp3', null, m, true);
+        } catch (error) {
+          console.error(`Error fetching file: ${error.message}`);
+        }
+      } else {
+        // Enviamos el archivo local
+        await this.sendFile(m.chat, file, 'audio.mp3', null, m, true);
       }
-
-      this.sendFile(m.chat, file, 'audio.mp3', null, m, true);
       break;
     }
   }
