@@ -4,8 +4,11 @@ import ytdl from 'ytdl-core';
 import axios from 'axios';
 import { youtubedl, youtubedlv2 } from '@bochilteam/scraper';
 
-let handler = async (m, { conn, command, args, text, usedPrefix }) => {
+const wm = 'NombreDelBot'; // Define aquí la marca o nombre de tu bot
+const img = 'URL_O_RUTA_DE_IMAGEN'; // Define una imagen si la usas en contextInfo
+const redes = 'URL_O_RUTA_DE_RED_SOCIAL'; // Define un URL si es necesario
 
+let handler = async (m, { conn, command, args, text, usedPrefix }) => {
     if (!text) return conn.reply(m.chat, `*🤔 ¿Qué estás buscando? 🤔*\n*Ingresa el nombre de la canción*\n\n*Ejemplo:*\n${usedPrefix}play emilia 420`, m, { 
         contextInfo: { 
             externalAdReply : { 
@@ -32,7 +35,7 @@ let handler = async (m, { conn, command, args, text, usedPrefix }) => {
         buttons.push(['Más resultados', `${usedPrefix}yts ${text}`]);
     }
 
-    await conn.sendButton(m.chat, texto1, botname, yt_play[0].thumbnail, buttons, null, null, m);
+    await conn.sendButton(m.chat, texto1, wm, yt_play[0].thumbnail, buttons, null, null, m);
 }
 
 handler.help = ['play', 'play2', 'play3', 'play4'];
