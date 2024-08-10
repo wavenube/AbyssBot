@@ -2,13 +2,12 @@ import { watchFile, unwatchFile } from 'fs'
 import fs from 'fs'; 
 import chalk from 'chalk' 
 import { fileURLToPath } from 'url' 
-import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import axios from 'axios'
 import moment from 'moment-timezone' 
 
 global.owner = [
-  ['34682075812', 'FG98', true],
+  ['34682075812', 'Zephyr', true],
   ['5492613619545']
 ] //Numeros de owner 
 
@@ -63,7 +62,6 @@ global.APIKeys = {'https://api.xteam.xyz': `${keysxteam}`,
 'https://api.itsrose.site': 'Rs-Zeltoria',
 'https://api-xcoders.site': 'Frieren' }
 
-global.cheerio = cheerio
 global.fs = fs
 global.fetch = fetch
 global.axios = axios
